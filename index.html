@@ -4,9 +4,101 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Two-City Comparison Tool</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="assets/css/datapage.css" />
 </head>
+
 <body>
-    
+    <header class="row">
+        <div id="header" class="col s12 center-align">Two-City Comparison Tool</div>
+    </header>
+
+    <div class="divider"></div>
+
+    <div class="container">
+        <section id="city-bar" class="col s12 m12 l12 center-align">
+            <div id="test" class="row nav-wrapper">
+                <div id="city-one" class="col s3 m3 l3">
+                    <div class="input-field">
+                        <input placeholder="City One" id="first_name" type="text" class="validate center-align">
+                    </div>
+                </div>
+                <div id="criteria" class="col s6 m6 l6">
+                    <div id="checkboxes">
+                        <form action="#">
+                            <p>
+                              <label class="checkbox-label">
+                                <input type="checkbox" />
+                                <span>COVID</span>
+                              </label>
+                              <label class="checkbox-label">
+                                <input type="checkbox" />
+                                <span>Map</span>
+                              </label>
+                              <label class="checkbox-label">
+                                <input type="checkbox" />
+                                <span>Jobs</span>
+                              </label>
+                              <label class="checkbox-label">
+                                <input type="checkbox" />
+                                <span>Weather</span>
+                              </label>
+                            </p>
+                        </form>
+                    </div>
+                    <div id="button">    
+                        <div id="submit">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="city-two" class="col s3 m3 l3">
+                    <div class="input-field">
+                        <input placeholder="City Two" id="first_name" type="text" class="validate center-align">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <main id="api-list" class="row ">
+            <div id="city-one-api" class="col s6 left-align">
+                <div>
+                    Api 1
+                </div>
+                <div>
+                    Api 2
+                </div>
+                <div>
+                    Api 3
+                </div>
+                <div>
+                    Api 4
+                </div>
+            </div>
+            <div id="city-two-api" class="col s6 right-align">
+                <div>
+                    Api 1
+                </div>
+                <div>
+                    Api 2
+                </div>
+                <div>
+                    Api 3
+                </div>
+                <div>
+                    Api 4
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 </html>
