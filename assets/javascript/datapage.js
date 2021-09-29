@@ -9,9 +9,14 @@ function cityWeather(cityInput) {
             cityName = data.name;
             lat = data.coord.lat;
             lon = data.coord.lon;
+            var latLon {
+                lat: lat,
+                lon: lon
+            };
             weatherUrl(lat, lon, cityName);
             console.log(lat);
-            console.log(lon);     
+            console.log(lon);    
+            return latLon; 
     });
     
     function weatherUrl(lat, lon, cityName) {
