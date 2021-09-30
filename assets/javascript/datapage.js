@@ -83,16 +83,35 @@ function callLatLonTwo(cityInput) {
             lat = data.coord.lat;
             lon = data.coord.lon;
             console.log(typeof(lat));
-            // var latLon = {
-            //     lat: lat,
-            //     lon: lon
-            // };
             //Include all functions that depends on latitude and longitude of the city
             //weatherUrl(lat, lon, cityName);
             initMapTwo(lat,lon);
     });
 }
 
-callLatLonOne("Boston");
-callLatLonTwo("Cairo");
+// callLatLonOne("Boston");
+// callLatLonTwo("Cairo");
 
+
+// on click of submit button, send text input to the two api calls
+var submitButton = document.querySelector(".btn");
+submitButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    //select the input box element for both cities
+    var searchInputOne = document.querySelector("#city-input-1").value;
+    var searchInputTwo = document.querySelector("#city-input-2").value;
+
+    if (searchInputOne ==="") {
+        searchInputOne = "Atlanta";
+    } if (searchInputTwo === "" ) {
+        searchInputTwo = "Boston";
+    }
+    // clears the last input
+    document.querySelector("#city-input-1").value = "";
+    document.querySelector("#city-input-2").value = "";
+    
+    // sends string values to the api call
+    callLatLonOne(searchInputOne);
+    callLatLonTwo(searchInputTwo);
+})
