@@ -28,6 +28,6 @@ span {
 #map-api-2 {
     height: 300px;
     width: 300px;
-    visibility: hidden;
+    /* display : none; */
 }
 
