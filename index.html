@@ -6,20 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Two-City Comparison Tool</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="assets/css/datapage.css" />
 </head>
 
 <body>
     <header class="row">
-        <div id="header" class="col s12 center-align">Two-City Comparison Tool</div>
+        <div id="header" class="col s12 center-align teal lighten-2">Two-City Comparison Tool</div>
     </header>
 
     <div class="divider"></div>
 
     <div class="container">
         <section id="city-bar" class="col s12 m12 l12 center-align">
-            <div id="test" class="row nav-wrapper">
+            <div class="row nav-wrapper">
                 <div id="city-one" class="col s3 m3 l3">
                     <div class="input-field">
                         <input placeholder="City One" id="first_name" type="text" class="validate center-align">
@@ -68,37 +71,22 @@
 
         <main id="api-list" class="row ">
             <div id="city-one-api" class="col s6 left-align">
-                <div>
-                    Api 1
-                </div>
-                <div>
-                    Api 2
-                </div>
-                <div>
-                    Api 3
-                </div>
-                <div>
-                    Api 4
-                </div>
+                <div id="1-covid-api"></div>
+                <div id="1-map-api"></div>
+                <div id="1-jobs-api"></div>
+                <div id="1-weather-api"></div>
             </div>
             <div id="city-two-api" class="col s6 right-align">
-                <div>
-                    Api 1
-                </div>
-                <div>
-                    Api 2
-                </div>
-                <div>
-                    Api 3
-                </div>
-                <div>
-                    Api 4
-                </div>
+                <div id="2-covid-api"></div>
+                <div id="2-map-api"> </div>
+                <div id="2-jobs-api"></div>
+                <div id="2-weather-api"></div>
             </div>
         </main>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src = "assets/javascript/datapage.js"></script>
 </body>
 
 </html>
