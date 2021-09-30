@@ -1,0 +1,136 @@
+.container {
+    display: block;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    padding: 10px;
+    color: whitesmoke;
+    box-shadow: 3px 5px 8px 1px gray;
+    border: gray;
+    margin: 20px auto;
+   }
+
+h1 { 
+    text-align: center;
+    display:block;
+    border-radius: 5px;
+    background-color: lightslategrey;
+    padding: 10px;
+  }
+
+.tab-container {
+    display : block;
+    border-radius: 8px;
+    box-shadow: 3px 5px 7px teal;
+    margin : 15px auto;
+    padding: 10px;
+    width: 60%;
+    
+}
+
+h3 {
+    text-align: center;
+    display : block;
+    border-radius: 6px;
+    background-color: lightsteelblue;
+    padding: 10px 20px 10px 20px;
+    margin : 5%;
+    box-shadow: 3px 6px 8px teal;
+    color: darkslategrey;
+}
+
+.city {
+    display: flex;
+    padding: 10px;
+    margin: 0 auto;
+    width: 50%;
+  }
+
+.city1 {
+    border-radius: 6px;
+    width: 30%;
+    background-color: transparent;
+    padding:5px;
+    margin: 10px auto;
+    
+   }
+
+ .city2 {
+     border-radius: 6px;
+     background-color: transparent;
+    width : 30%;
+    padding: 5px;
+    margin: 10px auto;
+  }
+
+.tab-section {
+
+    max-width: 250px;
+    margin: 0 auto;
+    width:100%;
+
+   /* display: flex; */
+    display: grid;
+    float: center;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    right: 0;
+    color: darkslategrey;
+    font-weight: bold;
+    }
+
+input {
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 2px 4px 6px teal;
+    padding:3px;
+    color: darkslategrey;
+    border-radius: 6px;
+    border: double slateblue;
+  }
+
+.btn {
+    
+    border-radius: 5px double lightgray;
+    align-items: center;
+    background-color: lightsteelblue;
+    width: 20%;
+    display: flex;
+    padding:10px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 3px 6px 8px teal;
+  }
+
+.submit {
+    align-items: center;
+    width: 100%;
+    height: 5vh;
+    background-color: lightseagreen;
+    color: darkslategrey;
+    font-weight: bold;
+    border-radius: 6px;
+  }
+
+  input:hover {
+      background-color: lightskyblue;
+  }
+.btn :hover {
+    background-color: tan;
+}
+
+@media screen and (min-width: 640px) {
+    body, input {
+        flex-direction: column;
+      }  
+}
+
+@media screen and (min-width: 768px) {
+    body, input {
+        flex-direction: column;
+      }
+}
+    
+
+
+
