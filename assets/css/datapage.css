@@ -23,3 +23,11 @@ body {
 span {
     font-size: 300%;
 }
+
+#map-api-1,
+#map-api-2 {
+    height: 300px;
+    width: 300px;
+    /* display : none; */
+}
+

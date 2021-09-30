@@ -71,7 +71,7 @@
 
         <main id="api-list" class="row ">
             <div id="city-one-api" class="col s6 left-align">
-                <ul id="covid-api-1" class = 'covid-api-1'></ul>
+                <div id="covid-api-1"></div>
                 <div id="map-api-1"></div>
                 <div id="jobs-api-1"></div>
                 <div id="weather-api-1"></div>
@@ -85,8 +85,14 @@
         </main>
     </div>
 
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src = "assets/javascript/datapage.js"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0PJijDwZFrcQRNJEhPVMki0kDc9t3MPM&callback=initMap&v=weekly"
+      async
+    ></script>
+    <script src="./assets/javascript/datapage.js"></script>
 </body>
 
 </html>

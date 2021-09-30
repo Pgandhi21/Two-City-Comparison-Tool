@@ -1,3 +1,29 @@
+
+// initializes map object
+function initMap(){
+    
+    var latLngOne = {
+        lat: 27.7634,
+        lng: -80.5437
+    }
+    var optionsOne = {
+        zoom: 10,
+        center: latLngOne
+    }
+
+    var map1 = new google.maps.Map(document.getElementById("map-api-1"),optionsOne);
+
+    var latLngTwo = {
+        lat: 34.0522,
+        lng: -118.2437
+    }
+    var optionsTwo = {
+        zoom: 10,
+        center: latLngTwo
+    }
+
+    var map2 = new google.maps.Map(document.getElementById("map-api-2"),optionsTwo);
+}
 // Global variables
 var lat;
 var lon;
@@ -8,6 +34,7 @@ callLatLon("atlanta");
 
 
 // Gets latitude and longitude of the city
+// use once for each city.
 function callLatLon(cityInput) {
     
     var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid="+openWeatherMapApiKey;
@@ -51,7 +78,10 @@ function getLocationDetails(lat, lon) {
         .catch((e) => {
         console.log("Error with Location Details");
         });
-}
+            weatherUrl(lat, lon, cityName);
+            initMap(27.7634, -80.5437); // tampa map
+            initMap(34.0522, -118.2437) // LA
+};
 
 
 // Get Covid Data for County
@@ -62,28 +92,28 @@ function getCovidData(countyFips) {
         .then(function(data) {
             console.log(data);
             var countyName = data.county;
-            // var updateDate = data.lastUpdatedDate;
+            var updateDate = data.lastUpdatedDate;
             var casesEl = data.actuals.cases;
-            // var deathsEl = data.actuals.deaths;
+            var deathsEl = data.actuals.deaths;
             var caseDensityEL = data.metrics.caseDensity;
-            // var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
-            // var testPositivityRatioEl = data.metrics.testPositivityRatio;
-            // var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
+            var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
+            var testPositivityRatioEl = data.metrics.testPositivityRatio;
+            var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             console.log(countyName);
             console.log(casesEl);
             console.log(caseDensityEL);
 
             
-            // $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
+            
 
             $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
-            
-            // $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
-            // $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
-            // $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
-            // $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
-            // $('<p>Deaths: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
-            // $('<p><img src= "http://https://drive.google.com/drive/folders/1p9SeJ6I28zzSrWEbmef5xi1vZr-GwhZB"/></p>').appendTo("#covid-api-1");
+            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
         })
         .catch((e) => {
             console.log("Error with Covid Data");
