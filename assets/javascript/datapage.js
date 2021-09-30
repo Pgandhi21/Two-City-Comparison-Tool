@@ -1,7 +1,13 @@
+// Global variables
+var lat;
+var lon;
+
+var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
+var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
+
 // initializes map object
 function initMapOne(lat,lon){
     
-
     //initialized map
     var latit = 27.7634;
     var long = -80.5437;
@@ -46,23 +52,32 @@ function initMapTwo(lat,lon) {
     var latLng = marker.getPosition();
     map2.setCenter(latLng);
 }
-// Global variables
-// var lat;
-// var lon;
 
-var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
-var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
-callLatLon("atlanta");
+// on click of submit button, send text input to the two api calls
+var submitButton = document.querySelector(".btn");
+submitButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    
+    //select the input box element for both cities
+    var searchInputOne = document.querySelector("#city-input-1").value;
+    var searchInputTwo = document.querySelector("#city-input-2").value;
 
+    if (searchInputOne ==="") {
+        searchInputOne = "Atlanta";
+    } if (searchInputTwo === "" ) {
+        searchInputTwo = "Boston";
+    }
+    // clears the last input
+    document.querySelector("#city-input-1").value = "";
+    document.querySelector("#city-input-2").value = "";
+    
+    // sends string values to the api call
+    callLatLonOne(searchInputOne);
+    callLatLonTwo(searchInputTwo);
+});
 
 // Gets latitude and longitude of the city
-// use once for each city.
-<<<<<<< HEAD
-function callLatLon(cityInput) {
-    
-    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid="+openWeatherMapApiKey;
-    
-=======
+// Gets latitude and longitude of the city 1
 function callLatLonOne(cityInput) {
     var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=3e666a3d81484f1bb070cec8466f5dd9";
     fetch(latLonURL)
@@ -73,20 +88,17 @@ function callLatLonOne(cityInput) {
             lat = data.coord.lat;
             lon = data.coord.lon;
             console.log(typeof(lat));
-            // var latLon = {
-            //     lat: lat,
-            //     lon: lon
-            // };
-            //Include all functions that depends on latitude and longitude of the city
-            //weatherUrl(lat, lon, cityName);
-            //initMap(lat, lon); // tampa map
-            initMapOne(lat,lon) // LA
-    });
+            getLocationDetailsOne(lat, lon);
+            initMapOne(lat,lon); // LA
+        })
+        .catch((e) => {
+        console.log("Error with Location: Latitude and Longitude");
+        });
 }
 
+// Gets latitude and longitude of the city 2
 function callLatLonTwo(cityInput) {
     var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=3e666a3d81484f1bb070cec8466f5dd9";
->>>>>>> 66885ec938135426bcc2fbebec83430e8cf06f50
     fetch(latLonURL)
         .then(response =>response.json())
         .then(function(data) {
@@ -94,27 +106,23 @@ function callLatLonTwo(cityInput) {
             cityName = data.name;
             lat = data.coord.lat;
             lon = data.coord.lon;
-<<<<<<< HEAD
-            console.log(lat);
-            console.log(lon);
-            var latLon = {
-                lat: lat,
-                lon: lon
-            };
-            
+            console.log(typeof(lat));
             //Include all functions that depends on latitude and longitude of the city
-            getLocationDetails(lat, lon);
-            
+            getLocationDetailsTwo(lat, lon);
+            initMapTwo(lat,lon);
             // weatherUrl(lat, lon, cityName);
         })
         .catch((e) => {
-        console.log("Error with Location Latitude and Longitude");
+        console.log("Error with Location: Latitude and Longitude");
         });
 }
 
 
-// Get County Information from latitude and longitude
-function getLocationDetails(lat, lon) {
+
+
+
+// Get County Information from latitude and longitude for City 1
+function getLocationDetailsOne(lat, lon) {
     
     fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
         .then((response) => response.json())
@@ -122,24 +130,22 @@ function getLocationDetails(lat, lon) {
         console.log(data);
         var countyFips = data.results[0].county_fips;
         console.log(countyFips); 
-        getCovidData(countyFips);                                                                                   
+        getCovidDataOne(countyFips);                                                                                   
         })
         .catch((e) => {
         console.log("Error with Location Details");
         });
-            weatherUrl(lat, lon, cityName);
-            initMap(27.7634, -80.5437); // tampa map
-            initMap(34.0522, -118.2437) // LA
 };
 
 
-// Get Covid Data for County
-function getCovidData(countyFips) {
-    
+// Get Covid Data for County for City 1
+function getCovidDataOne(countyFips) {
+    $("#covid-api-1").children().remove(); 
     fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
         .then(response =>response.json())
         .then(function(data) {
             console.log(data);
+
             var countyName = data.county;
             var updateDate = data.lastUpdatedDate;
             var casesEl = data.actuals.cases;
@@ -148,13 +154,7 @@ function getCovidData(countyFips) {
             var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
             var testPositivityRatioEl = data.metrics.testPositivityRatio;
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
-            console.log(countyName);
-            console.log(casesEl);
-            console.log(caseDensityEL);
-
             
-            
-
             $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
             $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
             $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
@@ -168,19 +168,50 @@ function getCovidData(countyFips) {
             console.log("Error with Covid Data");
         });
 };
-=======
-            console.log(typeof(lat));
-            // var latLon = {
-            //     lat: lat,
-            //     lon: lon
-            // };
-            //Include all functions that depends on latitude and longitude of the city
-            //weatherUrl(lat, lon, cityName);
-            initMapTwo(lat,lon);
-    });
-}
 
-callLatLonOne("Boston");
-callLatLonTwo("Cairo");
->>>>>>> 66885ec938135426bcc2fbebec83430e8cf06f50
+// Get County Information from latitude and longitude for City 2
+function getLocationDetailsTwo(lat, lon) {
+    
+    fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
+        .then((response) => response.json())
+        .then(function(data) {
+        console.log(data);
+        var countyFips = data.results[0].county_fips;
+        console.log(countyFips); 
+        getCovidDataTwo(countyFips);                                                                                   
+        })
+        .catch((e) => {
+        console.log("Error with Location Details");
+        });
+};
 
+
+// Get Covid Data for County for City 2
+function getCovidDataTwo(countyFips) {
+    $("#covid-api-2").children().remove();
+    fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            var countyName = data.county;
+            var updateDate = data.lastUpdatedDate;
+            var casesEl = data.actuals.cases;
+            var deathsEl = data.actuals.deaths;
+            var caseDensityEL = data.metrics.caseDensity;
+            var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
+            var testPositivityRatioEl = data.metrics.testPositivityRatio;
+            var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
+            
+            $('<h5>Covid Data</h5>').appendTo("#covid-api-2");
+            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-2");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-2");
+            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-2");
+            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-2");
+            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-2");
+            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-2");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-2");
+        })
+        .catch((e) => {
+            console.log("Error with Covid Data");
+        });
+};
