@@ -25,27 +25,27 @@
             <div class="row nav-wrapper">
                 <div id="city-one" class="col s3 m3 l3">
                     <div class="input-field">
-                        <input placeholder="City One" id="city-input-1" type="text" class="validate center-align">
+                        <input placeholder="Atlanta" id="city-input-1" type="text" class="validate center-align">
                     </div>
                 </div>
                 <div id="criteria" class="col s6 m6 l6">
                     <div id="checkboxes">
                         <form action="#">
                             <p>
-                              <label class="checkbox-label">
-                                <input type="checkbox" />
+                              <label for="checkbox-covid">
+                                <input type="checkbox" id="checkbox-covid" />
                                 <span>COVID</span>
                               </label>
-                              <label class="checkbox-label">
-                                <input type="checkbox" />
+                              <label for="checkbox-map">
+                                <input type="checkbox" id="checkbox-map" />
                                 <span>Map</span>
                               </label>
-                              <label class="checkbox-label">
-                                <input type="checkbox" />
+                              <label for="checkbox-jobs">
+                                <input type="checkbox" id="checkbox-jobs" />
                                 <span>Jobs</span>
                               </label>
-                              <label class="checkbox-label">
-                                <input type="checkbox" />
+                              <label for="checkbox-weather">
+                                <input type="checkbox" id="checkbox-weather" />
                                 <span>Weather</span>
                               </label>
                             </p>
@@ -61,7 +61,7 @@
                 </div>
                 <div id="city-two" class="col s3 m3 l3">
                     <div class="input-field">
-                        <input placeholder="City Two" id="city-input-2" type="text" class="validate center-align">
+                        <input placeholder="New York" id="city-input-2" type="text" class="validate center-align">
                     </div>
                 </div>
             </div>
@@ -71,20 +71,22 @@
 
         <main id="api-list" class="row ">
             <div id="city-one-api" class="col s6 left-align">
-                <div id="covid-api-1"></div>
-                <div id="map-api-1"></div>
-                <div id="jobs-api-1"></div>
-                <div id="weather-api-1"></div>
+                <div id="map-api-1" class="map-api" ></div>
+                <div id="covid-api-1" class="covid-api" ></div>
+                <div id="jobs-api-1" class="job-api" ></div>
+                <div id="weather-api-1" class="weather-api" ></div>
             </div>
             <div id="city-two-api" class="col s6 right-align">
-                <div id="covid-api-2"></div>
-                <div id="map-api-2"> </div>
-                <div id="jobs-api-2"></div>
-                <div id="weather-api-2"></div>
+                <div id="map-api-2" class="map-api" ></div>
+                <div id="covid-api-2" class="covid-api" ></div>
+                <div id="jobs-api-2" class="job-api" ></div>
+                <div id="weather-api-2" class="weather-api" ></div>
             </div>
         </main>
     </div>
 
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0PJijDwZFrcQRNJEhPVMki0kDc9t3MPM&callback=initMap&v=weekly"
