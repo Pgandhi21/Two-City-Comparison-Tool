@@ -1,6 +1,8 @@
 // Global variables
 var lat;
 var lon;
+var lastCitySearchesOne = [];
+var lastCitySearchesTwo = [];
 
 var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
 var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
@@ -75,6 +77,9 @@ submitButton.addEventListener("click", function (event) {
     // sends string values to the api call
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
+    
+    // calls fucntion to save search arrays to local storage
+    saveLastSearches();
 
     //calls checkbox validation functions
     checkboxValidationMaps();
@@ -92,12 +97,39 @@ submitButton.addEventListener("click", function (event) {
 
     if(!checkboxMapEl && !checkboxCovidEl && !checkboxJobsEl && !checkboxWeatherEl){
     $('.modal').modal();
-    };
+    }
 
 });
 
+// pushes the last city searched to the array and then updates local storage
+function saveSearchOne(cityName) {
+    lastCitySearchesOne.push(cityName);
+    console.log(lastCitySearchesOne[lastCitySearchesOne.length-1]);
+    localStorage.setItem("recentCitySearchesOne", JSON.stringify(lastCitySearchesOne));
+}
+
+// pushes the last city searched to the array and then updates local storage
+function saveSearchTwo(cityName) {
+    lastCitySearchesTwo.push(cityName);
+    console.log(lastCitySearchesTwo[lastCitySearchesTwo.length-1]);
+    localStorage.setItem("recentCitySearchesTwo", JSON.stringify(lastCitySearchesTwo));
+}
+
+// this function will use the arrays recievd from the local storage for dropdowns
+function renderLastSearches() {
+    lastCitySearchesOne = JSON.parse(localStorage.getItem("recentCitySearchesOne"));
+    lastCitySearchesTwo = JSON.parse(localStorage.getItem("recentCitySearchesTwo"));
+
+}
+
+//this fucntions gets the last element from a designated array and uses it to search for a city
+function lastSearchIsSearch(citySearchArray) {
+
+}
+
 // Gets latitude and longitude of the city
 // Gets latitude and longitude of the city 1
+// also calls API functions
 function callLatLonOne(cityInput) {
     var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=3e666a3d81484f1bb070cec8466f5dd9";
     fetch(latLonURL)
@@ -112,6 +144,8 @@ function callLatLonOne(cityInput) {
             initMapOne(lat,lon); // LA
             // creates job section using searched cities
             jobSearchOne(cityName);
+            // adds the city to the city search array
+            saveSearchOne(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -134,6 +168,9 @@ function callLatLonTwo(cityInput) {
             initMapTwo(lat,lon);
             jobSearchTwo(cityName);
             // weatherUrl(lat, lon, cityName);
+
+            // adds the city to the second search array
+            saveSearchTwo(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
