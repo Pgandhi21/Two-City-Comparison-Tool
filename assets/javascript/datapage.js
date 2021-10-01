@@ -250,18 +250,21 @@ function jobSearchOne(searchInputOne) {
     var selectedJobsOne = jobsArray.filter(location => (location.city.includes(searchInputOne)));
     console.log(selectedJobsOne);
 
-    jobsApi1.textContent = "";
+    jobsApi1.textContent = "Job Search Results:";
 
     for (var i = 0; i < selectedJobsOne.length; i++) {
+        var mainDiv1 = document.createElement('div');
+        mainDiv1.classList.add("job"+i);
+        jobsApi1.appendChild(mainDiv1);
         var position = document.createElement('p');
         position.textContent = 'Job Position: ' + selectedJobsOne[i].position;
-        jobsApi1.appendChild(position);
+        mainDiv1.appendChild(position);
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsOne[i].company;
-        jobsApi1.appendChild(company);
+        mainDiv1.appendChild(company);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsOne[i].pay;
-        jobsApi1.appendChild(pay);
+        mainDiv1.appendChild(pay);
     }
 
     if (selectedJobsOne.length === 0) {
@@ -273,18 +276,21 @@ function jobSearchTwo(searchInputTwo) {
     var selectedJobsTwo = jobsArray.filter(location => (location.city.includes(searchInputTwo)));
     console.log(selectedJobsTwo);
     
-    jobsApi2.textContent = "";
+    jobsApi2.textContent = "Job Search Results:";
 
     for (var i = 0; i < selectedJobsTwo.length; i++) {
+        var mainDiv2 = document.createElement('div');
+        mainDiv2.classList.add("job-"+i);
+        jobsApi2.appendChild(mainDiv2);
         var position = document.createElement('p');
         position.textContent = 'Job Position: ' + selectedJobsTwo[i].position;
-        jobsApi2.appendChild(position);
+        mainDiv2.appendChild(position);
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsTwo[i].company;
-        jobsApi2.appendChild(company);
+        mainDiv2.appendChild(company);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsTwo[i].pay;
-        jobsApi2.appendChild(pay);
+        mainDiv2.appendChild(pay);
     }
 
     if (selectedJobsTwo.length === 0) {
