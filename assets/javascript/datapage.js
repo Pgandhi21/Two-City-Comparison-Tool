@@ -37,7 +37,7 @@ function initMapTwo(lat,lon) {
         lng: -118.2437
     }
     var optionsTwo = {
-        zoom: 10,
+        zoom: 11,
         center: latLngTwo
     }
     var map2 = new google.maps.Map(document.getElementById("map-api-2"),optionsTwo);
@@ -62,6 +62,7 @@ submitButton.addEventListener("click", function (event) {
     var searchInputOne = document.querySelector("#city-input-1").value;
     var searchInputTwo = document.querySelector("#city-input-2").value;
 
+    // if no user input, selects default cities to be displayed.
     if (searchInputOne ==="") {
         searchInputOne = "Atlanta";
     } if (searchInputTwo === "" ) {
@@ -75,6 +76,11 @@ submitButton.addEventListener("click", function (event) {
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
 
+    //calls checkbox validation functions
+    checkboxValidationMaps();
+    checkboxValidationCovid();
+    checkboxValidationJobs();
+    checkboxValidationWeather();
     // creates job section using searched cities
     jobSearchOne(searchInputOne);
     jobSearchTwo(searchInputTwo);
@@ -121,12 +127,127 @@ function callLatLonTwo(cityInput) {
         });
 }
 
+//checks if checkbox is clicked, if so display the map api
+function checkboxValidationMaps() {
+    var checkbox = document.querySelector("#checkbox-map");
+    var mapApis = document.querySelectorAll(".map-api");
 
+    if (checkbox.checked == true){
+        for (var i = 0; i < mapApis.length; i++) {
+            mapApis[i].setAttribute("style", "display: block;");
+            console.log("check is checked");
+        }
+    } else {
+        for (var n = 0; n < mapApis.length; n++) {
+            mapApis[n].setAttribute("style", "display:none;");
+            console.log("check not checked");
+        }
+    }
 
+}
+
+function checkboxValidationCovid() {
+    var checkbox = document.querySelector("#checkbox-covid");
+    var covidApis = document.querySelectorAll(".covid-api");
+
+    if (checkbox.checked == true){
+        for (var i = 0; i < covidApis.length; i++) {
+            covidApis[i].setAttribute("style", "display: block;");
+            console.log("check is checked");
+        }
+    } else {
+        for (var n = 0; n < covidApis.length; n++) {
+            covidApis[n].setAttribute("style", "display:none;");
+            console.log("check not checked");
+        }
+    }
+}
+
+function checkboxValidationJobs() {
+    var checkbox = document.querySelector("#checkbox-jobs");
+    var jobApis = document.querySelectorAll(".job-api");
+
+    if (checkbox.checked == true){
+        for (var i = 0; i < jobApis.length; i++) {
+            jobApis[i].setAttribute("style", "display: block;");
+            console.log("check is checked");
+        }
+    } else {
+        for (var n = 0; n < jobApis.length; n++) {
+            jobApis[n].setAttribute("style", "display:none;");
+            console.log("check not checked");
+        }
+    }
+}
+
+function checkboxValidationWeather() {
+    var checkbox = document.querySelector("#checkbox-weather");
+    var weatherApis = document.querySelectorAll(".weather-api");
+
+    if (checkbox.checked == true){
+        for (var i = 0; i < weatherApis.length; i++) {
+            weatherApis[i].setAttribute("style", "display: block;");
+            console.log("check is checked");
+        }
+    } else {
+        for (var n = 0; n < weatherApis.length; n++) {
+            weatherApis[n].setAttribute("style", "display:none;");
+            console.log("check not checked");
+        }
+    }
+}
 
 
 // Get County Information from latitude and longitude for City 1
 function getLocationDetailsOne(lat, lon) {
+    
+    fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
+        .then((response) => response.json())
+        .then(function(data) {
+        console.log(data);
+        var countyFips = data.results[0].county_fips;
+        console.log(countyFips); 
+        getCovidDataOne(countyFips);                                                                                   
+        })
+        .catch((e) => {
+        console.log("Error with Location Details");
+        });
+};
+
+
+// Get Covid Data for County for City 1
+function getCovidDataOne(countyFips) {
+    $("#covid-api-1").children().remove(); 
+    fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+
+            var countyName = data.county;
+            var updateDate = data.lastUpdatedDate;
+            var casesEl = data.actuals.cases;
+            var deathsEl = data.actuals.deaths;
+            var caseDensityEL = data.metrics.caseDensity;
+            var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
+            var testPositivityRatioEl = data.metrics.testPositivityRatio;
+            var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
+            
+            $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
+            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
+        })
+        .catch((e) => {
+            console.log("Error with Covid Data");
+        });
+};
+
+// Get County Information from latitude and longitude for City 2
+function getLocationDetailsTwo(lat, lon) {
     
     fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
         .then((response) => response.json())

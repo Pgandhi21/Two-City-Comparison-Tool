@@ -24,11 +24,10 @@ span {
     font-size: 300%;
 }
 
-#map-api-1,
-#map-api-2 {
+.map-api{
     height: 300px;
     width: 300px;
-    /* display : none; */
+    display : none;
 }
 
 #jobs-api-1{
