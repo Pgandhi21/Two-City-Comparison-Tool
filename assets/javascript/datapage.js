@@ -74,6 +74,10 @@ submitButton.addEventListener("click", function (event) {
     // sends string values to the api call
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
+
+    //  get weather for city1 and city2
+    weatherCityOne(searchInputOne);
+    weatherCityTwo(searchInputTwo);
 });
 
 // Gets latitude and longitude of the city
@@ -116,9 +120,6 @@ function callLatLonTwo(cityInput) {
         console.log("Error with Location: Latitude and Longitude");
         });
 }
-
-
-
 
 
 // Get County Information from latitude and longitude for City 1
@@ -215,3 +216,65 @@ function getCovidDataTwo(countyFips) {
             console.log("Error with Covid Data");
         });
 };
+
+// Weather API Section
+// for city 1
+
+
+
+// get weather for city 1
+function weatherCityOne(cityInput) {
+    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=7e44ab7dc38056f61c9d41fc361df519&units=imperial";
+    fetch(latLonURL)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            cityName = data.name;
+             cityMinTemp = data.main.temp_min;
+             cityMaxTemp = data.main.temp_max;
+        
+        
+        $('<h5>City Weather</h5>').appendTo("#weather-api-1");
+$('<div id="location">City : ' + cityName + '</div>').appendTo("#weather-api-1");
+//$('<div> <img id="temp-icon" src="" alt="" >' + tempIcon + '</div>').appendTo("#weather-api-1");
+$('<p id="mintemp-value"> Min Temp : ' + cityMinTemp + '<span> F </span></p>').appendTo("#weather-api-1");
+$('<p id="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span> F </span></p>').appendTo("#weather-api-1");
+
+// Write a if/else condition, where if the weather is sunny, show the sunny image to the page. 
+// How to display an image on the HTML using javascript (GOOGLE THIS)
+        })
+        .catch((e) => {
+        console.log("PLease add valid City name for Weather!");
+
+        });
+}
+
+// Gets weather of the city 2
+function weatherCityTwo(cityInput) {
+    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=7e44ab7dc38056f61c9d41fc361df519&units=imperial" ;
+    fetch(latLonURL)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            cityName = data.name;
+            
+            cityMinTemp = data.main.temp_min;
+            cityMaxTemp = data.main.temp_max;
+
+            $('<h5>City Weather</h5>').appendTo("#weather-api-2");
+            $('<div id="location">City : ' + cityName + '</div>').appendTo("#weather-api-2");
+            //$('<div> <img id="temp-icon" src="" alt="" >' + tempIcon + '</div>').appendTo("#weather-api-1");
+            $('<p id="mintemp-value"> Min Temp : ' + cityMinTemp + '<span> F </span></p>').appendTo("#weather-api-2");
+            $('<p id="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span> F </span></p>').appendTo("#weather-api-2");
+            
+            
+            
+        })
+        .catch((e) => {
+        console.log("Please select valid City Name for Weather!");
+        });
+}
+
+
+
+
