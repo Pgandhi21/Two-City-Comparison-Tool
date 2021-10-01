@@ -24,10 +24,15 @@ span {
     font-size: 300%;
 }
 
+#map-container-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
 .map-api{
-    height: 300px;
-    width: 300px;
-    display : none;
+    width: 400px;
+    height: 400px;
 }
 
 #jobs-api-1{
