@@ -82,8 +82,8 @@ submitButton.addEventListener("click", function (event) {
     checkboxValidationJobs();
     checkboxValidationWeather();
     // creates job section using searched cities
-    jobSearchOne(searchInputOne);
-    jobSearchTwo(searchInputTwo);
+    // jobSearchOne(searchInputOne);
+    // jobSearchTwo(searchInputTwo);
 });
 
 // Gets latitude and longitude of the city
@@ -100,6 +100,8 @@ function callLatLonOne(cityInput) {
             console.log(typeof(lat));
             getLocationDetailsOne(lat, lon);
             initMapOne(lat,lon); // LA
+            // creates job section using searched cities
+            jobSearchOne(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -120,6 +122,7 @@ function callLatLonTwo(cityInput) {
             //Include all functions that depends on latitude and longitude of the city
             getLocationDetailsTwo(lat, lon);
             initMapTwo(lat,lon);
+            jobSearchTwo(cityName);
             // weatherUrl(lat, lon, cityName);
         })
         .catch((e) => {
