@@ -81,9 +81,19 @@ submitButton.addEventListener("click", function (event) {
     checkboxValidationCovid();
     checkboxValidationJobs();
     checkboxValidationWeather();
-    // creates job section using searched cities
-    // jobSearchOne(searchInputOne);
-    // jobSearchTwo(searchInputTwo);
+    
+    
+
+    //Show Error message when none of the checkbox are clicked
+    var checkboxMapEl = $("#checkbox-map").is(':checked');
+    var checkboxCovidEl = $("#checkbox-covid").is(':checked');
+    var checkboxJobsEl = $("#checkbox-jobs").is(':checked');
+    var checkboxWeatherEl = $("#checkbox-weather").is(':checked');
+
+    if(!checkboxMapEl && !checkboxCovidEl && !checkboxJobsEl && !checkboxWeatherEl){
+    $('.modal').modal();
+    };
+
 });
 
 // Gets latitude and longitude of the city
