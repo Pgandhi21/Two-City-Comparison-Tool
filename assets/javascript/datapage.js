@@ -65,7 +65,7 @@ submitButton.addEventListener("click", function (event) {
     if (searchInputOne ==="") {
         searchInputOne = "Atlanta";
     } if (searchInputTwo === "" ) {
-        searchInputTwo = "Boston";
+        searchInputTwo = "New York";
     }
     // clears the last input
     document.querySelector("#city-input-1").value = "";
@@ -74,6 +74,10 @@ submitButton.addEventListener("click", function (event) {
     // sends string values to the api call
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
+
+    // creates job section using searched cities
+    jobSearchOne(searchInputOne);
+    jobSearchTwo(searchInputTwo);
 });
 
 // Gets latitude and longitude of the city
@@ -215,3 +219,75 @@ function getCovidDataTwo(countyFips) {
             console.log("Error with Covid Data");
         });
 };
+
+// list out job openings for certain cities, with respective positions, companies, languages required, and pay
+var jobsArray = [
+    {"city":"Atlanta","position":"Full Stack Software Engineer","company":"Microsuft","languages":"Java, C/C++, Python","pay":"$75,000/year"},
+    {"city":"Atlanta","position":"Front End Web Developer","company":"Googul","languages":"CSS, JavaScript, Materialize","pay":"$90,000/year"},
+    {"city":"Atlanta","position":"Entry Level Software Developer","company":"Malechimp","languages":"React JS","pay":"$65,000/year"},
+    {"city":"Los Angeles","position":"Software Engineer, IOS","company":"Tweeter","languages":"Objective-C, C++, Swift","pay":"$60,000/year"},
+    {"city":"Los Angeles","position":"Back End Software Engineer","company":"TitanZ","languages":"Python, NoSQL, GraphQL","pay":"$78,000/year"},
+    {"city":"Los Angeles","position":"Entry Level Programmer","company":"HelloWorld","languages":"HTML, CSS, JavaScript","pay":"$30/hour"},
+    {"city":"New York","position":"Full Stack Software Engineer","company":"Appel","languages":"Java, C/C++, Python","pay":"$95,000/year"},
+    {"city":"New York","position":"Entry Level Software Developer","company":"Tweeter","languages":"CSS, JavaScript, Bootstrap","pay":"$66,000/year"},
+    {"city":"New York","position":"Front End Web Developer","company":"Amazone","languages":"React.js, JavaScript, Angular","pay":"$92,000/year"},
+    {"city":"Philadelphia","position":"Front End Web Developer","company":"Wallmart","languages":"HTML, CSS, Javascript","pay":"$57,000/year"},
+    {"city":"Philadelphia","position":"Entry Level Software Developer","company":"HelloWorld","languages":"Java, C/C++, Python","pay":"$30/hour"},
+    {"city":"Philadelphia","position":"Software Engineer, Android","company":"Faceboop","languages":"Java","pay":"$66,000/year"},
+    {"city":"Chicago","position":"Entry Level Programmer","company":"iBay","languages":"React.js, JavaScript, Angular","pay":"$68,000/year"},
+    {"city":"Chicago","position":"Full Stack Software Engineer","company":"Targit","languages":"Java, C/C++, Python","pay":"$77,000/year"},
+    {"city":"Chicago","position":"Software Engineer","company":"Endeed","languages":"HTML, CSS, Javascript","pay":"$52,000/year"},
+]
+
+console.log(jobsArray);
+
+var jobsApi1 = document.querySelector('#jobs-api-1');
+var jobsApi2 = document.querySelector('#jobs-api-2');
+
+// search through array to pick out the cities that match the user input and display its respective properties
+function jobSearchOne(searchInputOne) {
+
+    var selectedJobsOne = jobsArray.filter(location => (location.city.includes(searchInputOne)));
+    console.log(selectedJobsOne);
+
+    jobsApi1.textContent = "";
+
+    for (var i = 0; i < selectedJobsOne.length; i++) {
+        var position = document.createElement('p');
+        position.textContent = 'Job Position: ' + selectedJobsOne[i].position;
+        jobsApi1.appendChild(position);
+        var company = document.createElement('p');
+        company.textContent = 'Company: ' + selectedJobsOne[i].company;
+        jobsApi1.appendChild(company);
+        var pay = document.createElement('p');
+        pay.textContent = 'Pay: ' + selectedJobsOne[i].pay;
+        jobsApi1.appendChild(pay);
+    }
+
+    if (selectedJobsOne.length === 0) {
+        console.log("hello!")
+    }
+}
+
+function jobSearchTwo(searchInputTwo) {
+    var selectedJobsTwo = jobsArray.filter(location => (location.city.includes(searchInputTwo)));
+    console.log(selectedJobsTwo);
+    
+    jobsApi2.textContent = "";
+
+    for (var i = 0; i < selectedJobsTwo.length; i++) {
+        var position = document.createElement('p');
+        position.textContent = 'Job Position: ' + selectedJobsTwo[i].position;
+        jobsApi2.appendChild(position);
+        var company = document.createElement('p');
+        company.textContent = 'Company: ' + selectedJobsTwo[i].company;
+        jobsApi2.appendChild(company);
+        var pay = document.createElement('p');
+        pay.textContent = 'Pay: ' + selectedJobsTwo[i].pay;
+        jobsApi2.appendChild(pay);
+    }
+
+    if (selectedJobsTwo.length === 0) {
+        console.log("hello!")
+    }
+}
