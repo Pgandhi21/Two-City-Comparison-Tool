@@ -137,7 +137,7 @@ function checkboxValidationMaps() {
 
     if (checkbox.checked == true){
         for (var i = 0; i < mapApis.length; i++) {
-            mapApis[i].setAttribute("style", "display: block;");
+            mapApis[i].setAttribute("style", "display: flex;");
             console.log("check is checked");
         }
     } else {
@@ -172,7 +172,7 @@ function checkboxValidationJobs() {
 
     if (checkbox.checked == true){
         for (var i = 0; i < jobApis.length; i++) {
-            jobApis[i].setAttribute("style", "display: block;");
+            jobApis[i].setAttribute("style", "display: flex;");
             console.log("check is checked");
         }
     } else {
