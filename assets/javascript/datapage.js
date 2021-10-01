@@ -82,9 +82,7 @@ submitButton.addEventListener("click", function (event) {
     checkboxValidationJobs();
     checkboxValidationWeather();
     
-    // creates job section using searched cities
-    jobSearchOne(searchInputOne);
-    jobSearchTwo(searchInputTwo);
+    
 
     //Show Error message when none of the checkbox are clicked
     var checkboxMapEl = $("#checkbox-map").is(':checked');
@@ -96,8 +94,6 @@ submitButton.addEventListener("click", function (event) {
     $('.modal').modal();
     };
 
-    // jobSearchOne(searchInputOne);
-    // jobSearchTwo(searchInputTwo);
 });
 
 // Gets latitude and longitude of the city
