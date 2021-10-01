@@ -195,9 +195,56 @@ function checkboxValidationWeather() {
 }
 
 
-
 // Get County Information from latitude and longitude for City 1
 function getLocationDetailsOne(lat, lon) {
+    
+    fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
+        .then((response) => response.json())
+        .then(function(data) {
+        console.log(data);
+        var countyFips = data.results[0].county_fips;
+        console.log(countyFips); 
+        getCovidDataOne(countyFips);                                                                                   
+        })
+        .catch((e) => {
+        console.log("Error with Location Details");
+        });
+};
+
+
+// Get Covid Data for County for City 1
+function getCovidDataOne(countyFips) {
+    $("#covid-api-1").children().remove(); 
+    fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+
+            var countyName = data.county;
+            var updateDate = data.lastUpdatedDate;
+            var casesEl = data.actuals.cases;
+            var deathsEl = data.actuals.deaths;
+            var caseDensityEL = data.metrics.caseDensity;
+            var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
+            var testPositivityRatioEl = data.metrics.testPositivityRatio;
+            var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
+            
+            $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
+            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
+            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
+        })
+        .catch((e) => {
+            console.log("Error with Covid Data");
+        });
+};
+
+// Get County Information from latitude and longitude for City 2
+function getLocationDetailsTwo(lat, lon) {
     
     fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
         .then((response) => response.json())
@@ -289,4 +336,4 @@ function getCovidDataTwo(countyFips) {
         .catch((e) => {
             console.log("Error with Covid Data");
         });
-};
+    }
