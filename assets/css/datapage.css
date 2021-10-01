@@ -30,3 +30,35 @@ span {
     display : none;
 }
 
+#jobs-api-1{
+    display: flex;
+    flex-direction: column;
+    font-size: 150%;
+}
+
+#jobs-api-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    font-size: 150%;
+}
+
+.job0, .job1, .job2 {
+    background-color: teal;
+    color: white;
+    max-width: fit-content;
+    margin: 1% 0%;
+    padding: 1%;
+    border-radius: 20px;
+    font-size: 70%;
+}
+
+.job-0, .job-1, .job-2 {
+    background-color: teal;
+    color: white;
+    max-width: fit-content;
+    margin: 1% 0%;
+    padding: 1%;
+    border-radius: 20px;
+    font-size: 70%;
+}
