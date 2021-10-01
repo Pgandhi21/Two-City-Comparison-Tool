@@ -31,7 +31,7 @@ function initMapTwo(lat,lon) {
         lng: -118.2437
     }
     var optionsTwo = {
-        zoom: 10,
+        zoom: 11,
         center: latLngTwo
     }
     var map2 = new google.maps.Map(document.getElementById("map-api-2"),optionsTwo);
