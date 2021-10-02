@@ -3,7 +3,8 @@ var lat;
 var lon;
 
 var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
-var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
+var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9";
+var openWeatherApiKey = "7e44ab7dc38056f61c9d41fc361df519";
 
 // initializes map object
 function initMapOne(lat,lon){
@@ -233,15 +234,18 @@ function weatherCityOne(cityInput) {
              cityMinTemp = data.main.temp_min;
              cityMaxTemp = data.main.temp_max;
              tempIcon = data.weather[0].icon;
+             cityWind = data.wind.speed;
+             cityHumidity = data.main.humidity;
         
-$('<h5 class="weatherHeader>City Weather</h5>').appendTo("#weather-api-1");
+$('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-1");
 $('<div class="location">City : ' + cityName + '</div>').appendTo("#weather-api-1");
 $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo("#weather-api-1");
-$('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> ℉  </span></div>').appendTo("#weather-api-1");
+$('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
 $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
+$('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo("#weather-api-1");
+$('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo("#weather-api-1");
 
-// Write a if/else condition, where if the weather is sunny, show the sunny image to the page. 
-// How to display an image on the HTML using javascript (GOOGLE THIS)
+
         })
         .catch((e) => {
         console.log("PLease add valid City name for Weather!");
@@ -260,13 +264,16 @@ function weatherCityTwo(cityInput) {
             tempIcon = data.weather[0].icon;
             cityMinTemp = data.main.temp_min;
             cityMaxTemp = data.main.temp_max;
+            cityWind = data.wind.speed;
+             cityHumidity = data.main.humidity;
              
             $('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-2");
             $('<div class="location">City : ' + cityName + '</div>').appendTo("#weather-api-2");
             $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" />  </div>').appendTo("#weather-api-2");
             $('<div class="mintemp-value"> Min Temp  : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
             $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
-            
+            $('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo("#weather-api-2");
+            $('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo("#weather-api-2");
             
             
         })

@@ -30,6 +30,7 @@ span {
     width: 300px;
     /* display : none; */
 }
+
 #weather-api-1,
 #weather-api-2 {
     height: 300px;
@@ -41,7 +42,6 @@ span {
     text-align: center;
     color: darkslategrey;
     padding-top: 30px; 
-    margin: 30%;
     
 }
 
@@ -49,7 +49,7 @@ span {
 color : slateblue;
 font-weight: bold;
 }
-.deg {
+.deg, .percent, .mph {
     font-size: 15px;
 }
 
