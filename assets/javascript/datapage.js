@@ -3,6 +3,7 @@ var lat;
 var lon;
 var lastCitySearchesOne = [];
 var lastCitySearchesTwo = [];
+var count = 0;
 
 var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
 var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
@@ -14,7 +15,7 @@ function initMapOne(lat,lon){
     var latit = 27.7634;
     var long = -80.5437;
     var optionsOne = {
-        zoom: 11,
+        zoom: 12,
         center: {lat: latit, lng: long}
     }
     var map1 = new google.maps.Map(document.getElementById("map-api-1"),optionsOne);
@@ -39,7 +40,7 @@ function initMapTwo(lat,lon) {
         lng: -118.2437
     }
     var optionsTwo = {
-        zoom: 11,
+        zoom: 12,
         center: latLngTwo
     }
     var map2 = new google.maps.Map(document.getElementById("map-api-2"),optionsTwo);
@@ -54,32 +55,33 @@ function initMapTwo(lat,lon) {
     var latLng = marker.getPosition();
     map2.setCenter(latLng);
 }
-
+renderLastSearches()
+initLocalStorage()
 // on click of submit button, send text input to the two api calls
 var submitButton = document.querySelector(".btn");
 submitButton.addEventListener("click", function (event) {
     event.preventDefault();
-    
     //select the input box element for both cities
     var searchInputOne = document.querySelector("#city-input-1").value;
     var searchInputTwo = document.querySelector("#city-input-2").value;
 
     // if no user input, selects default cities to be displayed.
     if (searchInputOne ==="") {
-        searchInputOne = "Atlanta";
+        var lastSearchOne = lastSearchIsSearch(lastCitySearchesOne);
+        searchInputOne = lastSearchOne;
     } if (searchInputTwo === "" ) {
-        searchInputTwo = "New York";
+        searchInputTwo = lastSearchIsSearch(lastCitySearchesTwo);
     }
     // clears the last input
     document.querySelector("#city-input-1").value = "";
     document.querySelector("#city-input-2").value = "";
     
+    console.log(lastSearchIsSearch(lastCitySearchesOne));
+    console.log(lastSearchIsSearch(lastCitySearchesTwo));
     // sends string values to the api call
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
     
-    // calls fucntion to save search arrays to local storage
-    saveLastSearches();
 
     //calls checkbox validation functions
     checkboxValidationMaps();
@@ -101,17 +103,23 @@ submitButton.addEventListener("click", function (event) {
 
 });
 
+// initializes the local storage to atlanta and NYC, without this there is an error when the program runs with no previous array in the local storage
+function initLocalStorage(){
+    saveSearchOne("Atlanta");
+    saveSearchTwo("New York");
+}
+
 // pushes the last city searched to the array and then updates local storage
 function saveSearchOne(cityName) {
     lastCitySearchesOne.push(cityName);
-    console.log(lastCitySearchesOne[lastCitySearchesOne.length-1]);
+    //console.log(lastCitySearchesOne[lastCitySearchesOne.length-1]);
     localStorage.setItem("recentCitySearchesOne", JSON.stringify(lastCitySearchesOne));
 }
 
 // pushes the last city searched to the array and then updates local storage
 function saveSearchTwo(cityName) {
     lastCitySearchesTwo.push(cityName);
-    console.log(lastCitySearchesTwo[lastCitySearchesTwo.length-1]);
+    //console.log(lastCitySearchesTwo[lastCitySearchesTwo.length-1]);
     localStorage.setItem("recentCitySearchesTwo", JSON.stringify(lastCitySearchesTwo));
 }
 
@@ -122,9 +130,13 @@ function renderLastSearches() {
 
 }
 
+//calls the above function so that the application starts with the last searches in the global arrays
+//renderLastSearches();
+
 //this fucntions gets the last element from a designated array and uses it to search for a city
 function lastSearchIsSearch(citySearchArray) {
-
+    var cityToSearch = citySearchArray[citySearchArray.length-1];
+    return cityToSearch;
 }
 
 // Gets latitude and longitude of the city
@@ -141,7 +153,7 @@ function callLatLonOne(cityInput) {
             lon = data.coord.lon;
             console.log(typeof(lat));
             getLocationDetailsOne(lat, lon);
-            initMapOne(lat,lon); // LA
+            initMapOne(lat,lon); 
             // creates job section using searched cities
             jobSearchOne(cityName);
             // adds the city to the city search array
