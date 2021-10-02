@@ -232,13 +232,13 @@ function weatherCityOne(cityInput) {
             cityName = data.name;
              cityMinTemp = data.main.temp_min;
              cityMaxTemp = data.main.temp_max;
+             tempIcon = data.weather[0].icon;
         
-        
-        $('<h5>City Weather</h5>').appendTo("#weather-api-1");
-$('<div id="location">City : ' + cityName + '</div>').appendTo("#weather-api-1");
-//$('<div> <img id="temp-icon" src="" alt="" >' + tempIcon + '</div>').appendTo("#weather-api-1");
-$('<p id="mintemp-value"> Min Temp : ' + cityMinTemp + '<span> F </span></p>').appendTo("#weather-api-1");
-$('<p id="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span> F </span></p>').appendTo("#weather-api-1");
+$('<h5 class="weatherHeader>City Weather</h5>').appendTo("#weather-api-1");
+$('<div class="location">City : ' + cityName + '</div>').appendTo("#weather-api-1");
+$('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo("#weather-api-1");
+$('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> ℉  </span></div>').appendTo("#weather-api-1");
+$('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
 
 // Write a if/else condition, where if the weather is sunny, show the sunny image to the page. 
 // How to display an image on the HTML using javascript (GOOGLE THIS)
@@ -257,15 +257,15 @@ function weatherCityTwo(cityInput) {
         .then(function(data) {
             console.log(data);
             cityName = data.name;
-            
+            tempIcon = data.weather[0].icon;
             cityMinTemp = data.main.temp_min;
             cityMaxTemp = data.main.temp_max;
-
-            $('<h5>City Weather</h5>').appendTo("#weather-api-2");
-            $('<div id="location">City : ' + cityName + '</div>').appendTo("#weather-api-2");
-            //$('<div> <img id="temp-icon" src="" alt="" >' + tempIcon + '</div>').appendTo("#weather-api-1");
-            $('<p id="mintemp-value"> Min Temp : ' + cityMinTemp + '<span> F </span></p>').appendTo("#weather-api-2");
-            $('<p id="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span> F </span></p>').appendTo("#weather-api-2");
+             
+            $('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-2");
+            $('<div class="location">City : ' + cityName + '</div>').appendTo("#weather-api-2");
+            $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" />  </div>').appendTo("#weather-api-2");
+            $('<div class="mintemp-value"> Min Temp  : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
+            $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
             
             
             

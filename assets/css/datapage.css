@@ -30,4 +30,27 @@ span {
     width: 300px;
     /* display : none; */
 }
+#weather-api-1,
+#weather-api-2 {
+    height: 300px;
+    width: 250px;
+    background-color: whitesmoke;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 3px 5px 8px teal;
+    text-align: center;
+    color: darkslategrey;
+    padding-top: 30px; 
+    margin: 30%;
+    
+}
+
+.weatherHeader {
+color : slateblue;
+font-weight: bold;
+}
+.deg {
+    font-size: 15px;
+}
+
 
