@@ -81,23 +81,44 @@ submitButton.addEventListener("click", function (event) {
     checkboxValidationCovid();
     checkboxValidationJobs();
     checkboxValidationWeather();
-    
-    
+});
 
-    //Show Error message when none of the checkbox are clicked
+
+
+//Show Error message when none of the checkbox are clicked
+submitButton.addEventListener("click", function () {
     var checkboxMapEl = $("#checkbox-map").is(':checked');
     var checkboxCovidEl = $("#checkbox-covid").is(':checked');
     var checkboxJobsEl = $("#checkbox-jobs").is(':checked');
     var checkboxWeatherEl = $("#checkbox-weather").is(':checked');
+    var allBoxesChecked = (checkboxMapEl || checkboxCovidEl || checkboxJobsEl || checkboxWeatherEl);    
 
-    if(!checkboxMapEl && !checkboxCovidEl && !checkboxJobsEl && !checkboxWeatherEl){
-    $('.modal').modal();
+    if(!allBoxesChecked == true) {
+        console.log(!allBoxesChecked == true);
+        $('#opener').addClass('modal-trigger');
+        $('.modal').modal({
+            dismissible: true, 
+            onOpenEnd: function() { 
+            },
+            onCloseEnd: function() {  
+                $('#opener').removeClass('modal-trigger'); 
+            } 
+        });
     };
-
 });
+
+// $('#city-bar').each(function() {
+//     var citySearchBar = $(this);
+//     var targetEl = $('#' + citySearchBar.attr('data-target'));
+//     citySearchBar.pushpin({
+//       top: targetEl.offset().top,
+//       bottom: targetEl.offset().top + targetEl.outerHeight() - citySearchBar.height()
+//     });
+// });
 
 // Gets latitude and longitude of the city
 // Gets latitude and longitude of the city 1
+
 function callLatLonOne(cityInput) {
     var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=3e666a3d81484f1bb070cec8466f5dd9";
     fetch(latLonURL)
@@ -245,65 +266,21 @@ function getCovidDataOne(countyFips) {
             var testPositivityRatioEl = data.metrics.testPositivityRatio;
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             
-            $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
-            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
-            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
+            $('<h5>Covid Data:</h5>').appendTo("#covid-api-1");
+            $("#covid-api-1").append($("<div/>").addClass("covid-api-div1"))
+            $('<p>County: ' + countyName +' </p>').appendTo(".covid-api-div1");
+            $('<p>Cases: ' + casesEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>ICU Capacity Ratio: ' + icuCapacityRatioEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>Positive Test Ratio: ' + testPositivityRatioEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>Vaccinated Ratio: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("covid-api-div1");
+            $('<p>Case Density: ' + caseDensityEL +'<br/>(cases/100k population for 7-day rolling average)</p>').appendTo(".covid-api-div1");
+            $('<p>Last Updated: ' + updateDate +' </p>').appendTo(".covid-api-div1");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo(".covid-api-div1");
         })
         .catch((e) => {
             console.log("Error with Covid Data");
-        });
-};
-
-// Get County Information from latitude and longitude for City 2
-function getLocationDetailsTwo(lat, lon) {
-    
-    fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
-        .then((response) => response.json())
-        .then(function(data) {
-        console.log(data);
-        var countyFips = data.results[0].county_fips;
-        console.log(countyFips); 
-        getCovidDataOne(countyFips);                                                                                   
-        })
-        .catch((e) => {
-        console.log("Error with Location Details");
-        });
-};
-
-
-// Get Covid Data for County for City 1
-function getCovidDataOne(countyFips) {
-    $("#covid-api-1").children().remove(); 
-    fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
-        .then(response =>response.json())
-        .then(function(data) {
-            console.log(data);
-
-            var countyName = data.county;
-            var updateDate = data.lastUpdatedDate;
-            var casesEl = data.actuals.cases;
-            var deathsEl = data.actuals.deaths;
-            var caseDensityEL = data.metrics.caseDensity;
-            var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
-            var testPositivityRatioEl = data.metrics.testPositivityRatio;
-            var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
-            
-            $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
-            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
-            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
-        })
-        .catch((e) => {
-            console.log("Error with Covid Data");
+            $('<p>Data not available for this city</p>').appendTo(".covid-api-div1");
         });
 };
 
@@ -326,11 +303,12 @@ function getLocationDetailsTwo(lat, lon) {
 
 // Get Covid Data for County for City 2
 function getCovidDataTwo(countyFips) {
-    $("#covid-api-2").children().remove();
+    $("#covid-api-2").children().remove(); 
     fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
         .then(response =>response.json())
         .then(function(data) {
             console.log(data);
+
             var countyName = data.county;
             var updateDate = data.lastUpdatedDate;
             var casesEl = data.actuals.cases;
@@ -340,19 +318,25 @@ function getCovidDataTwo(countyFips) {
             var testPositivityRatioEl = data.metrics.testPositivityRatio;
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             
-            $('<h5>Covid Data</h5>').appendTo("#covid-api-2");
-            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-2");
-            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-2");
+            $('<h5>Covid Data:</h5>').appendTo("#covid-api-2");
+            $("#covid-api-2").append($("<div/>").addClass("covid-api-div2 right-align"))
+            $('<p>County: ' + countyName +' </p>').appendTo(".covid-api-div2");
+            $('<p>Cases: ' + casesEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>ICU Capacity Ratio: ' + icuCapacityRatioEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>Positive Test Ratio: ' + testPositivityRatioEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>Vaccinated Ratio: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("covid-api-div2");
+            $('<p>Case Density: ' + caseDensityEL + '<br/>(cases/100k population for 7-day rolling average)</p>').appendTo(".covid-api-div2");
+            $('<p>Last Updated: ' + updateDate +' </p>').appendTo(".covid-api-div2");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo(".covid-api-div2");
         })
         .catch((e) => {
             console.log("Error with Covid Data");
+            $('<p>Data not available for this city</p>').appendTo(".covid-api-div2");
         });
 };
+
+
 
 // list out job openings for certain cities, with respective positions, companies, languages required, and pay
 var jobsArray = [

@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="assets/css/datapage.css" />
 </head>
@@ -53,7 +54,7 @@
                     </div>
                     <div id="button">    
                         <div id="submit">
-                            <button class="btn waves-effect waves-light modal-trigger" href="#modal1" type="submit" name="action">Submit
+                            <button class="btn waves-effect waves-light " href="#modal" type="submit" name="action" id = "opener">Submit
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -68,24 +69,26 @@
         </section>
 
         <div class="divider"></div>
-
-        <div id="modal1" class="modal">
+        
+        <div id="modal" class="modal">
             <div class="modal-content">
-              <h4>Error!!</h4>
-              <p>Please check on one of the checkboxes to display data.</p>
+                <h5>Error!!</h5>
+                <p>Please check on one of the checkboxes to display data.</p>
             </div>
             <div class="modal-footer">
-              <a href="#!" class="modal-close waves-effect waves-red btn red lighten-1">OK</a>
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
-    
+        <div class="divider"></div>
 
         <main id="api-list" class="row ">
             <div id="city-one-api" class="col m12 l6 left-align">
                 <div id="map-container-1">
                     <div id="map-api-1" class="map-api" ></div>
                 </div>
-                <div id="covid-api-1" class="covid-api" ></div>
+                <div id="covid-container-1">
+                    <div id="covid-api-1" class="covid-api" ></div>
+                </div>
                 <div id="jobs-api-1" class="job-api" ></div>
                 <div id="weather-api-1" class="weather-api" ></div>
             </div>
@@ -93,7 +96,9 @@
                 <div id="map-container-2">
                     <div id="map-api-2" class="map-api" ></div>
                 </div>
-                <div id="covid-api-2" class="covid-api" ></div>
+                <div id="covid-container-2">
+                    <div id="covid-api-2" class="covid-api" ></div>
+                </div>
                 <div id="jobs-api-2" class="job-api left-align"></div>
                 <div id="weather-api-2" class="weather-api" ></div>
             </div>
@@ -101,6 +106,7 @@
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0PJijDwZFrcQRNJEhPVMki0kDc9t3MPM&callback=initMap&v=weekly"
