@@ -24,33 +24,73 @@ span {
     font-size: 300%;
 }
 
-#map-api-1,
-#map-api-2 {
-    height: 300px;
-    width: 300px;
-    /* display : none; */
+#map-container-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
 }
 
-#weather-api-1,
-#weather-api-2 {
-    height: 300px;
-    width: 250px;
-    background-color: whitesmoke;
-    display: block;
+.map-api{
+    width: 400px;
+    height: 400px;
+}
+
+
+#jobs-api-1{
+    display: flex;
+    flex-direction: column;
+    font-size: 150%;
+}
+
+#jobs-api-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    font-size: 150%;
+}
+
+.job0, .job1, .job2 {
+    background-color: teal;
+    color: white;
+    max-width: fit-content;
+    margin: 1% 0%;
+    padding: 1%;
+    border-radius: 20px;
+    font-size: 70%;
+}
+
+.job-0, .job-1, .job-2 {
+    background-color: teal;
+    color: white;
+    max-width: fit-content;
+    margin: 1% 0%;
+    padding: 1%;
+    border-radius: 20px;
+    font-size: 70%;
+}
+
+#weather-api-1, #weather-api-2 {
+    display: none;
+    background-color: rgb(195, 219, 231);
     border-radius: 8px;
     box-shadow: 3px 5px 8px teal;
     text-align: center;
-    color: darkslategrey;
-    padding-top: 30px; 
-    
+    color: rgb(22, 122, 122);
+    padding-top: 10px; 
+    margin: 10px auto; 
+    width: 80%; 
+    font-weight: bold;
 }
 
 .weatherHeader {
-color : slateblue;
+color : teal;
 font-weight: bold;
 }
+
+#temp-icon {
+ width: 90px;
+}
+
 .deg, .percent, .mph {
     font-size: 15px;
 }
-
-
