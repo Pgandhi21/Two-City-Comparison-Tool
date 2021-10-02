@@ -35,6 +35,7 @@ span {
     height: 400px;
 }
 
+
 #jobs-api-1{
     display: flex;
     flex-direction: column;
@@ -66,4 +67,30 @@ span {
     padding: 1%;
     border-radius: 20px;
     font-size: 70%;
+}
+
+#weather-api-1, #weather-api-2 {
+    display: none;
+    background-color: rgb(195, 219, 231);
+    border-radius: 8px;
+    box-shadow: 3px 5px 8px teal;
+    text-align: center;
+    color: rgb(22, 122, 122);
+    padding-top: 10px; 
+    margin: 10px auto; 
+    width: 80%; 
+    font-weight: bold;
+}
+
+.weatherHeader {
+color : teal;
+font-weight: bold;
+}
+
+#temp-icon {
+ width: 90px;
+}
+
+.deg, .percent, .mph {
+    font-size: 15px;
 }
