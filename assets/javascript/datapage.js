@@ -1,6 +1,9 @@
 // Global variables
 var lat;
 var lon;
+var lastCitySearchesOne = [];
+var lastCitySearchesTwo = [];
+var count = 0;
 
 var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
 var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9";
@@ -13,7 +16,7 @@ function initMapOne(lat,lon){
     var latit = 27.7634;
     var long = -80.5437;
     var optionsOne = {
-        zoom: 11,
+        zoom: 12,
         center: {lat: latit, lng: long}
     }
     var map1 = new google.maps.Map(document.getElementById("map-api-1"),optionsOne);
@@ -38,7 +41,7 @@ function initMapTwo(lat,lon) {
         lng: -118.2437
     }
     var optionsTwo = {
-        zoom: 11,
+        zoom: 12,
         center: latLngTwo
     }
     var map2 = new google.maps.Map(document.getElementById("map-api-2"),optionsTwo);
@@ -53,29 +56,33 @@ function initMapTwo(lat,lon) {
     var latLng = marker.getPosition();
     map2.setCenter(latLng);
 }
-
+initLocalStorage();
+renderLastSearches();
 // on click of submit button, send text input to the two api calls
 var submitButton = document.querySelector(".btn");
 submitButton.addEventListener("click", function (event) {
     event.preventDefault();
-    
     //select the input box element for both cities
     var searchInputOne = document.querySelector("#city-input-1").value;
     var searchInputTwo = document.querySelector("#city-input-2").value;
 
     // if no user input, selects default cities to be displayed.
     if (searchInputOne ==="") {
-        searchInputOne = "Atlanta";
+        var lastSearchOne = lastSearchIsSearch(lastCitySearchesOne);
+        searchInputOne = lastSearchOne;
     } if (searchInputTwo === "" ) {
-        searchInputTwo = "New York";
+        searchInputTwo = lastSearchIsSearch(lastCitySearchesTwo);
     }
     // clears the last input
     document.querySelector("#city-input-1").value = "";
     document.querySelector("#city-input-2").value = "";
     
+    console.log(lastSearchIsSearch(lastCitySearchesOne));
+    console.log(lastSearchIsSearch(lastCitySearchesTwo));
     // sends string values to the api call
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
+    
 
     //  get weather for city1 and city2
     weatherCityOne(searchInputOne);
@@ -119,9 +126,46 @@ submitButton.addEventListener("click", function () {
 //     });
 // });
 
+
+// initializes the local storage to atlanta and NYC, without this there is an error when the program runs with no previous array in the local storage
+function initLocalStorage(){
+    saveSearchOne("Atlanta");
+    saveSearchTwo("New York");
+}
+
+// pushes the last city searched to the array and then updates local storage
+function saveSearchOne(cityName) {
+    lastCitySearchesOne.push(cityName);
+    //console.log(lastCitySearchesOne[lastCitySearchesOne.length-1]);
+    localStorage.setItem("recentCitySearchesOne", JSON.stringify(lastCitySearchesOne));
+}
+
+// pushes the last city searched to the array and then updates local storage
+function saveSearchTwo(cityName) {
+    lastCitySearchesTwo.push(cityName);
+    //console.log(lastCitySearchesTwo[lastCitySearchesTwo.length-1]);
+    localStorage.setItem("recentCitySearchesTwo", JSON.stringify(lastCitySearchesTwo));
+}
+
+// this function will use the arrays recievd from the local storage for dropdowns
+function renderLastSearches() {
+    lastCitySearchesOne = JSON.parse(localStorage.getItem("recentCitySearchesOne"));
+    lastCitySearchesTwo = JSON.parse(localStorage.getItem("recentCitySearchesTwo"));
+
+}
+
+//calls the above function so that the application starts with the last searches in the global arrays
+//renderLastSearches();
+
+//this functions gets the last element from a designated array and uses it to search for a city
+function lastSearchIsSearch(citySearchArray) {
+    var cityToSearch = citySearchArray[citySearchArray.length-1];
+    return cityToSearch;
+}
+
 // Gets latitude and longitude of the city
 // Gets latitude and longitude of the city 1
-
+// also calls API functions
 function callLatLonOne(cityInput) {
     var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=3e666a3d81484f1bb070cec8466f5dd9";
     fetch(latLonURL)
@@ -135,7 +179,11 @@ function callLatLonOne(cityInput) {
             //Include all functions that depends on latitude and longitude of the city
             getLocationDetailsOne(lat, lon);
             initMapOne(lat,lon); 
+            // creates job section using searched cities
             jobSearchOne(cityName);
+            // adds the city to the city search array
+            saveSearchOne(cityName);
+            $("#city-header-1").text(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -157,6 +205,11 @@ function callLatLonTwo(cityInput) {
             getLocationDetailsTwo(lat, lon);
             initMapTwo(lat,lon);
             jobSearchTwo(cityName);
+            // weatherUrl(lat, lon, cityName);
+            $("#city-header-2").text(cityName);
+
+            // adds the city to the second search array
+            saveSearchTwo(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -384,13 +437,22 @@ function jobSearchOne(searchInputOne) {
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsOne[i].company;
         mainDiv1.appendChild(company);
+        var languages = document.createElement('p');
+        languages.textContent = 'Languages: ' + selectedJobsOne[i].languages;
+        mainDiv1.appendChild(languages);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsOne[i].pay;
         mainDiv1.appendChild(pay);
     }
 
+    // if searched city is not part of array, display error message
     if (selectedJobsOne.length === 0) {
-        console.log("hello!")
+        var sideDiv1 = document.createElement('div');
+        sideDiv1.classList.add("error-notice");
+        mainh51.appendChild(sideDiv1);
+        var error1 = document.createElement('p');
+        error1.textContent = 'Sorry, job data is not available for this city.'
+        sideDiv1.appendChild(error1);
     }
 }
 
@@ -413,13 +475,22 @@ function jobSearchTwo(searchInputTwo) {
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsTwo[i].company;
         mainDiv2.appendChild(company);
+        var languages = document.createElement('p');
+        languages.textContent = 'Languages: ' + selectedJobsTwo[i].languages;
+        mainDiv2.appendChild(languages);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsTwo[i].pay;
         mainDiv2.appendChild(pay);
     }
 
+    // if searched city is not part of array, display error message
     if (selectedJobsTwo.length === 0) {
-        console.log("hello!")
+        var sideDiv2 = document.createElement('div');
+        sideDiv2.classList.add("error-notice");
+        mainh52.appendChild(sideDiv2);
+        var error2 = document.createElement('p');
+        error2.textContent = 'Sorry, job data is not available for this city.'
+        sideDiv2.appendChild(error2);
     }
 }
 
@@ -494,4 +565,20 @@ function weatherCityTwo(cityInput) {
         $('<div>Weather data not available</div>').appendTo(".weather-api-div2");
         });
 }
+
+$(document).ready(function(){
+    var cityObject = {
+        Atlanta: null,
+        "Los Angeles": null,
+        Chicago: null,
+        "New York": null,
+        Philadelphia : null
+    }
+
+
+    $("input.autocomplete").autocomplete({
+        data: cityObject,
+    });
+
+});
 

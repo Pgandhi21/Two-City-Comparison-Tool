@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="assets/css/datapage.css" />
 </head>
 
@@ -26,7 +27,8 @@
             <div class="row nav-wrapper">
                 <div id="city-one" class="col s3 m3 l3">
                     <div class="input-field">
-                        <input placeholder="Atlanta" id="city-input-1" type="text" class="validate center-align">
+                        <input  id="city-input-1" type="text" class="validate center-align autocomplete autocomplete-1">
+                        <label for="city-input-1">Type City Here</label>
                     </div>
                 </div>
                 <div id="criteria" class="col s6 m6 l6">
@@ -62,7 +64,8 @@
                 </div>
                 <div id="city-two" class="col s3 m3 l3">
                     <div class="input-field">
-                        <input placeholder="New York" id="city-input-2" type="text" class="validate center-align">
+                        <input id="city-input-2" type="text" class="validate center-align autocomplete">
+                        <label for="city-input-2">Type City Here</label>
                     </div>
                 </div>
             </div>
@@ -80,6 +83,9 @@
     
         <main id="api-list" class="row ">
             <div id="city-one-api" class="col m12 l6 left-align">
+                <div class="header-container-1" >
+                    <h4 id="city-header-1" class="city-header center-align" >Press Submit</h4>
+                </div>
                 <div id="map-container-1">
                     <div id="map-api-1" class="map-api" ></div>
                 </div>
@@ -94,6 +100,9 @@
                 </div>
             </div>
             <div id="city-two-api" class="col m12 l6 right-align">
+                <div class="header-container-2">
+                    <h4 id="city-header-2" class="city-header right-align"  >To Get Started</h4>
+                </div>
                 <div id="map-container-2">
                     <div id="map-api-2" class="map-api" ></div>
                 </div>

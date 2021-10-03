@@ -1,8 +1,10 @@
+/* Global Style */
 body {
     font-family: 'Bitter', serif;
     height: 100%;
 }
 
+/* Head bar Style */
 #header {
     min-height: 10vh;
     display: flex;
@@ -18,6 +20,7 @@ body {
     background-color: white;
 } */
 
+/* Input Form / City Bar Style */
 #city-input-1, #city-input-2 {
     font-size: 125%;   
 }
@@ -27,12 +30,32 @@ span {
     padding: 0px 10px 0px 0px;
 }
 
+/* Pop-up Modal Style */
 .modal {
     font-size: 125%;
     background-color: teal;
     color: white;
 }
 
+/* Main Data Display Style */
+/* City Name Style */
+.header-container-1 {
+    margin-top: 2%;
+    width: 400px;
+}
+
+.header-container-2 {
+    margin-top: 2%;
+    width: 400px;
+}
+
+.city-header{
+    width: 400px;
+    text-decoration: underline;
+    text-decoration-color: #4db6ac;
+}
+
+/* Map Data Style */
 #map-container-1 {
     margin-top: 2%;
 }
@@ -49,6 +72,7 @@ span {
     height: 400px;
 }
 
+/* Covid Data Style */
 .covid-api-div1, .covid-api-div2 {
     background-color: teal;
     color: white;
@@ -71,7 +95,7 @@ span {
     align-items: end;
 }
 
-
+/* Job Data Style */
 #jobs-container-1 {
     display: flex;
     flex-direction: column;
@@ -113,9 +137,7 @@ span {
     text-align: left;
 }
 
-
-
-
+/* Weather Data Style */
 #weather-container-1 {
     display: flex;
     flex-direction: column;
@@ -146,50 +168,4 @@ span {
     font-size: 15px;
 }
 
-/* #weather-api-1, #weather-api-2 {
-    display: flex;
-    flex-direction: column;
-    /* align-items: start; 
-    background-color: teal;
-    color: white;
-    font-size: 110%; 
-    border-radius: 20px;
-    margin: 1% 0%;
-    padding: 1%;
-    width: 400px;
-    font-weight: bold;
-} */
 
-/* .weatherHeader {
-    /* color : teal; */
-    font-weight: bold;
-} */
-    
-
-
-/* Bindu's original styling
-#weather-api-1, #weather-api-2 {
-    display: none;
-    background-color: rgb(195, 219, 231);
-    border-radius: 8px;
-    box-shadow: 3px 5px 8px teal;
-    text-align: center;
-    color: rgb(22, 122, 122);
-    padding-top: 10px; 
-    margin: 10px auto; 
-    width: 80%; 
-    font-weight: bold;
-}
-
-.weatherHeader {
-color : teal;
-font-weight: bold;
-}
-
-#temp-icon {
- width: 90px;
-}
-
-.deg, .percent, .mph {
-    font-size: 15px;
-} */
