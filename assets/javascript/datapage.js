@@ -422,6 +422,8 @@ function jobSearchOne(searchInputOne) {
     var selectedJobsOne = jobsArray.filter(location => (location.city.includes(searchInputOne)));
     console.log(selectedJobsOne);
 
+    jobsApi1.textContent = "";
+
     var mainh51 = document.createElement('h5');
         mainh51.classList.add("center-align");
         mainh51.textContent = "Job Search Results:";
@@ -459,6 +461,8 @@ function jobSearchOne(searchInputOne) {
 function jobSearchTwo(searchInputTwo) {
     var selectedJobsTwo = jobsArray.filter(location => (location.city.includes(searchInputTwo)));
     console.log(selectedJobsTwo);
+
+    jobsApi2.textContent = "";
     
     var mainh52 = document.createElement('h5');
         mainh52.classList.add("center-align");
