@@ -93,20 +93,39 @@ submitButton.addEventListener("click", function (event) {
     checkboxValidationCovid();
     checkboxValidationJobs();
     checkboxValidationWeather();
-    
-    
+});
 
-    //Show Error message when none of the checkbox are clicked
+
+
+//Show Error message when none of the checkbox are clicked
+submitButton.addEventListener("click", function () {
     var checkboxMapEl = $("#checkbox-map").is(':checked');
     var checkboxCovidEl = $("#checkbox-covid").is(':checked');
     var checkboxJobsEl = $("#checkbox-jobs").is(':checked');
     var checkboxWeatherEl = $("#checkbox-weather").is(':checked');
+    var allBoxesChecked = (checkboxMapEl || checkboxCovidEl || checkboxJobsEl || checkboxWeatherEl);    
 
-    if(!checkboxMapEl && !checkboxCovidEl && !checkboxJobsEl && !checkboxWeatherEl){
-    $('.modal').modal();
-    }
-
+    if(!allBoxesChecked == true) {
+        console.log(!allBoxesChecked == true);
+        $('#opener').addClass('modal-trigger');
+        $('.modal').modal({
+            dismissible: true, 
+            onOpenEnd: function() { 
+            },
+            onCloseEnd: function() {  
+                $('#opener').removeClass('modal-trigger'); 
+            } 
+        });
+    };
 });
+
+//Pin city-bar to top when scrolling - not working
+// $(document).ready(function(){
+//     $('.city-bar').pushpin({
+//         top: $('.city-bar').offset().top, 
+//     });
+// });
+
 
 // initializes the local storage to atlanta and NYC, without this there is an error when the program runs with no previous array in the local storage
 function initLocalStorage(){
@@ -138,7 +157,7 @@ function renderLastSearches() {
 //calls the above function so that the application starts with the last searches in the global arrays
 //renderLastSearches();
 
-//this fucntions gets the last element from a designated array and uses it to search for a city
+//this functions gets the last element from a designated array and uses it to search for a city
 function lastSearchIsSearch(citySearchArray) {
     var cityToSearch = citySearchArray[citySearchArray.length-1];
     return cityToSearch;
@@ -157,6 +176,7 @@ function callLatLonOne(cityInput) {
             lat = data.coord.lat;
             lon = data.coord.lon;
             console.log(typeof(lat));
+            //Include all functions that depends on latitude and longitude of the city
             getLocationDetailsOne(lat, lon);
             initMapOne(lat,lon); 
             // creates job section using searched cities
@@ -301,65 +321,21 @@ function getCovidDataOne(countyFips) {
             var testPositivityRatioEl = data.metrics.testPositivityRatio;
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             
-            $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
-            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
-            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
+            $('<h5>Covid Data:</h5>').appendTo("#covid-api-1");
+            $("#covid-api-1").append($("<div/>").addClass("covid-api-div1 left-align"));
+            $('<p>County: ' + countyName +' </p>').appendTo(".covid-api-div1");
+            $('<p>Cases: ' + casesEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>ICU Capacity Ratio: ' + icuCapacityRatioEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>Positive Test Ratio: ' + testPositivityRatioEl +' </p>').appendTo(".covid-api-div1");
+            $('<p>Vaccinated Ratio: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("covid-api-div1");
+            $('<p>Case Density: ' + caseDensityEL +'<br/>(cases/100k population for 7-day rolling average)</p>').appendTo(".covid-api-div1");
+            $('<p>Last Updated: ' + updateDate +' </p>').appendTo(".covid-api-div1");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo(".covid-api-div1");
         })
         .catch((e) => {
             console.log("Error with Covid Data");
-        });
-};
-
-// Get County Information from latitude and longitude for City 2
-function getLocationDetailsTwo(lat, lon) {
-    
-    fetch("https://geo.fcc.gov/api/census/area?lat="+lat+"&lon="+lon+"&format=json")
-        .then((response) => response.json())
-        .then(function(data) {
-        console.log(data);
-        var countyFips = data.results[0].county_fips;
-        console.log(countyFips); 
-        getCovidDataOne(countyFips);                                                                                   
-        })
-        .catch((e) => {
-        console.log("Error with Location Details");
-        });
-};
-
-
-// Get Covid Data for County for City 1
-function getCovidDataOne(countyFips) {
-    $("#covid-api-1").children().remove(); 
-    fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
-        .then(response =>response.json())
-        .then(function(data) {
-            console.log(data);
-
-            var countyName = data.county;
-            var updateDate = data.lastUpdatedDate;
-            var casesEl = data.actuals.cases;
-            var deathsEl = data.actuals.deaths;
-            var caseDensityEL = data.metrics.caseDensity;
-            var icuCapacityRatioEl = data.metrics.icuCapacityRatio;
-            var testPositivityRatioEl = data.metrics.testPositivityRatio;
-            var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
-            
-            $('<h5>Covid Data</h5>').appendTo("#covid-api-1");
-            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-1");
-            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-1");
-            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-1");
-        })
-        .catch((e) => {
-            console.log("Error with Covid Data");
+            $('<p>Data not available for this city</p>').appendTo(".covid-api-div1");
         });
 };
 
@@ -382,11 +358,12 @@ function getLocationDetailsTwo(lat, lon) {
 
 // Get Covid Data for County for City 2
 function getCovidDataTwo(countyFips) {
-    $("#covid-api-2").children().remove();
+    $("#covid-api-2").children().remove(); 
     fetch("https://api.covidactnow.org/v2/county/"+countyFips+".json?apiKey="+covidApiKey)
         .then(response =>response.json())
         .then(function(data) {
             console.log(data);
+
             var countyName = data.county;
             var updateDate = data.lastUpdatedDate;
             var casesEl = data.actuals.cases;
@@ -396,17 +373,21 @@ function getCovidDataTwo(countyFips) {
             var testPositivityRatioEl = data.metrics.testPositivityRatio;
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             
-            $('<h5>Covid Data</h5>').appendTo("#covid-api-2");
-            $('<div>Cases: ' + casesEl +' </div>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + deathsEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + icuCapacityRatioEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + testPositivityRatioEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Deaths: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("#covid-api-2");
-            $('<p>Case Density: ' + caseDensityEL +' (cases/100k population using a 7-day rolling average)</p>').appendTo("#covid-api-2");
-            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo("#covid-api-2");
+            $('<h5>Covid Data:</h5>').appendTo("#covid-api-2");
+            $("#covid-api-2").append($("<div/>").addClass("covid-api-div2 left-align"))
+            $('<p>County: ' + countyName +' </p>').appendTo(".covid-api-div2");
+            $('<p>Cases: ' + casesEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>Deaths: ' + deathsEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>ICU Capacity Ratio: ' + icuCapacityRatioEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>Positive Test Ratio: ' + testPositivityRatioEl +' </p>').appendTo(".covid-api-div2");
+            $('<p>Vaccinated Ratio: ' + vaccinationsInitiatedRatioEl +' </p>').appendTo("covid-api-div2");
+            $('<p>Case Density: ' + caseDensityEL + '<br/>(cases/100k population for 7-day rolling average)</p>').appendTo(".covid-api-div2");
+            $('<p>Last Updated: ' + updateDate +' </p>').appendTo(".covid-api-div2");
+            $('<p>Data provided by <a href="https://apidocs.covidactnow.org/">Covid Act Now</a></p>').appendTo(".covid-api-div2");
         })
         .catch((e) => {
             console.log("Error with Covid Data");
+            $('<p>Data not available for this city</p>').appendTo(".covid-api-div2");
         });
 };
 
@@ -441,12 +422,15 @@ function jobSearchOne(searchInputOne) {
     var selectedJobsOne = jobsArray.filter(location => (location.city.includes(searchInputOne)));
     console.log(selectedJobsOne);
 
-    jobsApi1.textContent = "Job Search Results:";
-
+    var mainh51 = document.createElement('h5');
+        mainh51.classList.add("center-align");
+        mainh51.textContent = "Job Search Results:";
+        jobsApi1.appendChild(mainh51);
+    
     for (var i = 0; i < selectedJobsOne.length; i++) {
         var mainDiv1 = document.createElement('div');
         mainDiv1.classList.add("job"+i);
-        jobsApi1.appendChild(mainDiv1);
+        mainh51.appendChild(mainDiv1);
         var position = document.createElement('p');
         position.textContent = 'Job Position: ' + selectedJobsOne[i].position;
         mainDiv1.appendChild(position);
@@ -465,7 +449,7 @@ function jobSearchOne(searchInputOne) {
     if (selectedJobsOne.length === 0) {
         var sideDiv1 = document.createElement('div');
         sideDiv1.classList.add("error-notice");
-        jobsApi1.appendChild(sideDiv1);
+        mainh51.appendChild(sideDiv1);
         var error1 = document.createElement('p');
         error1.textContent = 'Sorry, job data is not available for this city.'
         sideDiv1.appendChild(error1);
@@ -476,12 +460,15 @@ function jobSearchTwo(searchInputTwo) {
     var selectedJobsTwo = jobsArray.filter(location => (location.city.includes(searchInputTwo)));
     console.log(selectedJobsTwo);
     
-    jobsApi2.textContent = "Job Search Results:";
+    var mainh52 = document.createElement('h5');
+        mainh52.classList.add("center-align");
+        mainh52.textContent = "Job Search Results:";
+        jobsApi2.appendChild(mainh52);
 
     for (var i = 0; i < selectedJobsTwo.length; i++) {
         var mainDiv2 = document.createElement('div');
         mainDiv2.classList.add("job-"+i);
-        jobsApi2.appendChild(mainDiv2);
+        mainh52.appendChild(mainDiv2);
         var position = document.createElement('p');
         position.textContent = 'Job Position: ' + selectedJobsTwo[i].position;
         mainDiv2.appendChild(position);
@@ -500,7 +487,7 @@ function jobSearchTwo(searchInputTwo) {
     if (selectedJobsTwo.length === 0) {
         var sideDiv2 = document.createElement('div');
         sideDiv2.classList.add("error-notice");
-        jobsApi2.appendChild(sideDiv2);
+        mainh52.appendChild(sideDiv2);
         var error2 = document.createElement('p');
         error2.textContent = 'Sorry, job data is not available for this city.'
         sideDiv2.appendChild(error2);
@@ -525,21 +512,22 @@ function weatherCityOne(cityInput) {
              cityWind = data.wind.speed;
              cityHumidity = data.main.humidity;
 
-// dynamically generate weather card with weather elements  
+            // dynamically generate weather card with weather elements  
 
-$('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-1");
-$('<div class="location"> ' + cityName + '</div>').appendTo("#weather-api-1");
-$('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo("#weather-api-1");
-$('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
-$('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
-$('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo("#weather-api-1");
-$('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo("#weather-api-1");
+            $('<h5 class="weatherHeader">Weather Data:</h5>').appendTo("#weather-api-1");
+            $("#weather-api-1").append($("<div/>").addClass("weather-api-div1"));
+            $('<div class="location"> ' + cityName + '</div>').appendTo(".weather-api-div1");
+            $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo(".weather-api-div1");
+            $('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div1");
+            $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div1");
+            $('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo(".weather-api-div1");
+            $('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo(".weather-api-div1");
 
 
         })
         .catch((e) => {
         console.log("PLease add valid City name for Weather!");
-
+        $('<div>Weather data not available</div>').appendTo(".weather-api-div1");
         });
 }
 
@@ -559,20 +547,22 @@ function weatherCityTwo(cityInput) {
             cityWind = data.wind.speed;
              cityHumidity = data.main.humidity;
 
-// Dynamically generate weather card with weather elements             
+            // Dynamically generate weather card with weather elements             
              
-$('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-2");
-$('<div class="location"> ' + cityName + '</div>').appendTo("#weather-api-2");
-$('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" />  </div>').appendTo("#weather-api-2");
-$('<div class="mintemp-value"> Min Temp  : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
-$('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
-$('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo("#weather-api-2");
-$('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo("#weather-api-2");
+            $('<h5 class="weatherHeader">Weather Data:</h5>').appendTo("#weather-api-2");
+            $("#weather-api-2").append($("<div/>").addClass("weather-api-div2"));
+            $('<div class="location"> ' + cityName + '</div>').appendTo(".weather-api-div2");
+            $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo(".weather-api-div2");
+            $('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div2");
+            $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div2");
+            $('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo(".weather-api-div2");
+            $('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo(".weather-api-div2");
             
             
         })
         .catch((e) => {
         console.log("Please select valid City Name for Weather!");
+        $('<div>Weather data not available</div>').appendTo(".weather-api-div2");
         });
 }
 
