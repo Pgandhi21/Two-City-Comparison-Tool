@@ -3,7 +3,8 @@ var lat;
 var lon;
 
 var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
-var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
+var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9";
+var openWeatherApiKey = "7e44ab7dc38056f61c9d41fc361df519";
 
 // initializes map object
 function initMapOne(lat,lon){
@@ -76,6 +77,10 @@ submitButton.addEventListener("click", function (event) {
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
 
+    //  get weather for city1 and city2
+    weatherCityOne(searchInputOne);
+    weatherCityTwo(searchInputTwo);
+
     //calls checkbox validation functions
     checkboxValidationMaps();
     checkboxValidationCovid();
@@ -107,12 +112,10 @@ submitButton.addEventListener("click", function () {
     };
 });
 
-// $('#city-bar').each(function() {
-//     var citySearchBar = $(this);
-//     var targetEl = $('#' + citySearchBar.attr('data-target'));
-//     citySearchBar.pushpin({
-//       top: targetEl.offset().top,
-//       bottom: targetEl.offset().top + targetEl.outerHeight() - citySearchBar.height()
+//Pin city-bar to top when scrolling - not working
+// $(document).ready(function(){
+//     $('.city-bar').pushpin({
+//         top: $('.city-bar').offset().top, 
 //     });
 // });
 
@@ -129,9 +132,9 @@ function callLatLonOne(cityInput) {
             lat = data.coord.lat;
             lon = data.coord.lon;
             console.log(typeof(lat));
+            //Include all functions that depends on latitude and longitude of the city
             getLocationDetailsOne(lat, lon);
-            initMapOne(lat,lon); // LA
-            // creates job section using searched cities
+            initMapOne(lat,lon); 
             jobSearchOne(cityName);
         })
         .catch((e) => {
@@ -154,7 +157,6 @@ function callLatLonTwo(cityInput) {
             getLocationDetailsTwo(lat, lon);
             initMapTwo(lat,lon);
             jobSearchTwo(cityName);
-            // weatherUrl(lat, lon, cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -221,12 +223,12 @@ function checkboxValidationWeather() {
     if (checkbox.checked == true){
         for (var i = 0; i < weatherApis.length; i++) {
             weatherApis[i].setAttribute("style", "display: block;");
-            console.log("check is checked");
+            console.log(" weather checkbox is checked");
         }
     } else {
         for (var n = 0; n < weatherApis.length; n++) {
             weatherApis[n].setAttribute("style", "display:none;");
-            console.log("check not checked");
+            console.log("weather checkbox not checked");
         }
     }
 }
@@ -267,7 +269,7 @@ function getCovidDataOne(countyFips) {
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             
             $('<h5>Covid Data:</h5>').appendTo("#covid-api-1");
-            $("#covid-api-1").append($("<div/>").addClass("covid-api-div1"))
+            $("#covid-api-1").append($("<div/>").addClass("covid-api-div1 left-align"));
             $('<p>County: ' + countyName +' </p>').appendTo(".covid-api-div1");
             $('<p>Cases: ' + casesEl +' </p>').appendTo(".covid-api-div1");
             $('<p>Deaths: ' + deathsEl +' </p>').appendTo(".covid-api-div1");
@@ -319,7 +321,7 @@ function getCovidDataTwo(countyFips) {
             var vaccinationsInitiatedRatioEl = data.metrics.vaccinationsInitiatedRatio;
             
             $('<h5>Covid Data:</h5>').appendTo("#covid-api-2");
-            $("#covid-api-2").append($("<div/>").addClass("covid-api-div2 right-align"))
+            $("#covid-api-2").append($("<div/>").addClass("covid-api-div2 left-align"))
             $('<p>County: ' + countyName +' </p>').appendTo(".covid-api-div2");
             $('<p>Cases: ' + casesEl +' </p>').appendTo(".covid-api-div2");
             $('<p>Deaths: ' + deathsEl +' </p>').appendTo(".covid-api-div2");
@@ -335,7 +337,6 @@ function getCovidDataTwo(countyFips) {
             $('<p>Data not available for this city</p>').appendTo(".covid-api-div2");
         });
 };
-
 
 
 // list out job openings for certain cities, with respective positions, companies, languages required, and pay
@@ -368,12 +369,15 @@ function jobSearchOne(searchInputOne) {
     var selectedJobsOne = jobsArray.filter(location => (location.city.includes(searchInputOne)));
     console.log(selectedJobsOne);
 
-    jobsApi1.textContent = "Job Search Results:";
-
+    var mainh51 = document.createElement('h5');
+        mainh51.classList.add("center-align");
+        mainh51.textContent = "Job Search Results:";
+        jobsApi1.appendChild(mainh51);
+    
     for (var i = 0; i < selectedJobsOne.length; i++) {
         var mainDiv1 = document.createElement('div');
         mainDiv1.classList.add("job"+i);
-        jobsApi1.appendChild(mainDiv1);
+        mainh51.appendChild(mainDiv1);
         var position = document.createElement('p');
         position.textContent = 'Job Position: ' + selectedJobsOne[i].position;
         mainDiv1.appendChild(position);
@@ -394,12 +398,15 @@ function jobSearchTwo(searchInputTwo) {
     var selectedJobsTwo = jobsArray.filter(location => (location.city.includes(searchInputTwo)));
     console.log(selectedJobsTwo);
     
-    jobsApi2.textContent = "Job Search Results:";
+    var mainh52 = document.createElement('h5');
+        mainh52.classList.add("center-align");
+        mainh52.textContent = "Job Search Results:";
+        jobsApi2.appendChild(mainh52);
 
     for (var i = 0; i < selectedJobsTwo.length; i++) {
         var mainDiv2 = document.createElement('div');
         mainDiv2.classList.add("job-"+i);
-        jobsApi2.appendChild(mainDiv2);
+        mainh52.appendChild(mainDiv2);
         var position = document.createElement('p');
         position.textContent = 'Job Position: ' + selectedJobsTwo[i].position;
         mainDiv2.appendChild(position);
@@ -415,3 +422,76 @@ function jobSearchTwo(searchInputTwo) {
         console.log("hello!")
     }
 }
+
+// Weather API Section
+
+// Get weather for city 1
+
+function weatherCityOne(cityInput) {
+    $("#weather-api-1").children().remove();
+    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=7e44ab7dc38056f61c9d41fc361df519&units=imperial";
+    fetch(latLonURL)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            cityName = data.name;
+             cityMinTemp = data.main.temp_min;
+             cityMaxTemp = data.main.temp_max;
+             tempIcon = data.weather[0].icon;
+             cityWind = data.wind.speed;
+             cityHumidity = data.main.humidity;
+
+            // dynamically generate weather card with weather elements  
+
+            $('<h5 class="weatherHeader">Weather Data:</h5>').appendTo("#weather-api-1");
+            $("#weather-api-1").append($("<div/>").addClass("weather-api-div1"));
+            $('<div class="location"> ' + cityName + '</div>').appendTo(".weather-api-div1");
+            $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo(".weather-api-div1");
+            $('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div1");
+            $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div1");
+            $('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo(".weather-api-div1");
+            $('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo(".weather-api-div1");
+
+
+        })
+        .catch((e) => {
+        console.log("PLease add valid City name for Weather!");
+        $('<div>Weather data not available</div>').appendTo(".weather-api-div1");
+        });
+}
+
+// Gets weather for the city 2
+
+function weatherCityTwo(cityInput) {
+    $("#weather-api-2").children().remove();
+    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=7e44ab7dc38056f61c9d41fc361df519&units=imperial" ;
+    fetch(latLonURL)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            cityName = data.name;
+            tempIcon = data.weather[0].icon;
+            cityMinTemp = data.main.temp_min;
+            cityMaxTemp = data.main.temp_max;
+            cityWind = data.wind.speed;
+             cityHumidity = data.main.humidity;
+
+            // Dynamically generate weather card with weather elements             
+             
+            $('<h5 class="weatherHeader">Weather Data:</h5>').appendTo("#weather-api-2");
+            $("#weather-api-2").append($("<div/>").addClass("weather-api-div2"));
+            $('<div class="location"> ' + cityName + '</div>').appendTo(".weather-api-div2");
+            $('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo(".weather-api-div2");
+            $('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div2");
+            $('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo(".weather-api-div2");
+            $('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo(".weather-api-div2");
+            $('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo(".weather-api-div2");
+            
+            
+        })
+        .catch((e) => {
+        console.log("Please select valid City Name for Weather!");
+        $('<div>Weather data not available</div>').appendTo(".weather-api-div2");
+        });
+}
+
