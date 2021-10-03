@@ -163,6 +163,7 @@ function callLatLonOne(cityInput) {
             jobSearchOne(cityName);
             // adds the city to the city search array
             saveSearchOne(cityName);
+            $("#city-header-1").text(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -185,6 +186,7 @@ function callLatLonTwo(cityInput) {
             initMapTwo(lat,lon);
             jobSearchTwo(cityName);
             // weatherUrl(lat, lon, cityName);
+            $("#city-header-2").text(cityName);
 
             // adds the city to the second search array
             saveSearchTwo(cityName);
