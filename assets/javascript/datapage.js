@@ -88,6 +88,10 @@ submitButton.addEventListener("click", function (event) {
     weatherCityOne(searchInputOne);
     weatherCityTwo(searchInputTwo);
 
+    //  get weather for city1 and city2
+    weatherCityOne(searchInputOne);
+    weatherCityTwo(searchInputTwo);
+
     //calls checkbox validation functions
     checkboxValidationMaps();
     checkboxValidationCovid();
