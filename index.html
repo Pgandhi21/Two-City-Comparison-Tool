@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="assets/css/datapage.css" />
 </head>
 
@@ -25,7 +26,8 @@
             <div class="row nav-wrapper">
                 <div id="city-one" class="col s3 m3 l3">
                     <div class="input-field">
-                        <input placeholder="Atlanta" id="city-input-1" type="text" class="validate center-align">
+                        <input  id="city-input-1" type="text" class="validate center-align autocomplete autocomplete-1">
+                        <label for="city-input-1">Type City Here</label>
                     </div>
                 </div>
                 <div id="criteria" class="col s6 m6 l6">
@@ -61,7 +63,8 @@
                 </div>
                 <div id="city-two" class="col s3 m3 l3">
                     <div class="input-field">
-                        <input placeholder="New York" id="city-input-2" type="text" class="validate center-align">
+                        <input id="city-input-2" type="text" class="validate center-align autocomplete">
+                        <label for="city-input-2">Type City Here</label>
                     </div>
                 </div>
             </div>
@@ -101,6 +104,7 @@
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0PJijDwZFrcQRNJEhPVMki0kDc9t3MPM&callback=initMap&v=weekly"
