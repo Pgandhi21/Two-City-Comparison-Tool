@@ -402,6 +402,9 @@ function jobSearchOne(searchInputOne) {
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsOne[i].company;
         mainDiv1.appendChild(company);
+        var languages = document.createElement('p');
+        languages.textContent = 'Languages: ' + selectedJobsOne[i].languages;
+        mainDiv1.appendChild(languages);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsOne[i].pay;
         mainDiv1.appendChild(pay);
@@ -428,6 +431,9 @@ function jobSearchTwo(searchInputTwo) {
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsTwo[i].company;
         mainDiv2.appendChild(company);
+        var languages = document.createElement('p');
+        languages.textContent = 'Languages: ' + selectedJobsTwo[i].languages;
+        mainDiv2.appendChild(languages);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsTwo[i].pay;
         mainDiv2.appendChild(pay);
