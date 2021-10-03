@@ -451,13 +451,22 @@ function jobSearchOne(searchInputOne) {
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsOne[i].company;
         mainDiv1.appendChild(company);
+        var languages = document.createElement('p');
+        languages.textContent = 'Languages: ' + selectedJobsOne[i].languages;
+        mainDiv1.appendChild(languages);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsOne[i].pay;
         mainDiv1.appendChild(pay);
     }
 
+    // if searched city is not part of array, display error message
     if (selectedJobsOne.length === 0) {
-        console.log("hello!")
+        var sideDiv1 = document.createElement('div');
+        sideDiv1.classList.add("error-notice");
+        jobsApi1.appendChild(sideDiv1);
+        var error1 = document.createElement('p');
+        error1.textContent = 'Sorry, job data is not available for this city.'
+        sideDiv1.appendChild(error1);
     }
 }
 
@@ -477,13 +486,22 @@ function jobSearchTwo(searchInputTwo) {
         var company = document.createElement('p');
         company.textContent = 'Company: ' + selectedJobsTwo[i].company;
         mainDiv2.appendChild(company);
+        var languages = document.createElement('p');
+        languages.textContent = 'Languages: ' + selectedJobsTwo[i].languages;
+        mainDiv2.appendChild(languages);
         var pay = document.createElement('p');
         pay.textContent = 'Pay: ' + selectedJobsTwo[i].pay;
         mainDiv2.appendChild(pay);
     }
 
+    // if searched city is not part of array, display error message
     if (selectedJobsTwo.length === 0) {
-        console.log("hello!")
+        var sideDiv2 = document.createElement('div');
+        sideDiv2.classList.add("error-notice");
+        jobsApi2.appendChild(sideDiv2);
+        var error2 = document.createElement('p');
+        error2.textContent = 'Sorry, job data is not available for this city.'
+        sideDiv2.appendChild(error2);
     }
 }
 
