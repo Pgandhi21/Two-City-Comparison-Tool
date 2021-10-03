@@ -88,10 +88,6 @@ submitButton.addEventListener("click", function (event) {
     weatherCityOne(searchInputOne);
     weatherCityTwo(searchInputTwo);
 
-    //  get weather for city1 and city2
-    weatherCityOne(searchInputOne);
-    weatherCityTwo(searchInputTwo);
-
     //calls checkbox validation functions
     checkboxValidationMaps();
     checkboxValidationCovid();
@@ -167,6 +163,7 @@ function callLatLonOne(cityInput) {
             jobSearchOne(cityName);
             // adds the city to the city search array
             saveSearchOne(cityName);
+            $("#city-header-1").text(cityName);
         })
         .catch((e) => {
         console.log("Error with Location: Latitude and Longitude");
@@ -189,6 +186,7 @@ function callLatLonTwo(cityInput) {
             initMapTwo(lat,lon);
             jobSearchTwo(cityName);
             // weatherUrl(lat, lon, cityName);
+            $("#city-header-2").text(cityName);
 
             // adds the city to the second search array
             saveSearchTwo(cityName);
