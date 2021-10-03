@@ -6,7 +6,8 @@ var lastCitySearchesTwo = [];
 var count = 0;
 
 var covidApiKey = "0754bddab56f4369874e21793f17c9ea";
-var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9"
+var openWeatherMapApiKey = "3e666a3d81484f1bb070cec8466f5dd9";
+var openWeatherApiKey = "7e44ab7dc38056f61c9d41fc361df519";
 
 // initializes map object
 function initMapOne(lat,lon){
@@ -55,8 +56,8 @@ function initMapTwo(lat,lon) {
     var latLng = marker.getPosition();
     map2.setCenter(latLng);
 }
-renderLastSearches()
-initLocalStorage()
+initLocalStorage();
+renderLastSearches();
 // on click of submit button, send text input to the two api calls
 var submitButton = document.querySelector(".btn");
 submitButton.addEventListener("click", function (event) {
@@ -82,6 +83,10 @@ submitButton.addEventListener("click", function (event) {
     callLatLonOne(searchInputOne);
     callLatLonTwo(searchInputTwo);
     
+
+    //  get weather for city1 and city2
+    weatherCityOne(searchInputOne);
+    weatherCityTwo(searchInputTwo);
 
     //calls checkbox validation functions
     checkboxValidationMaps();
@@ -249,12 +254,12 @@ function checkboxValidationWeather() {
     if (checkbox.checked == true){
         for (var i = 0; i < weatherApis.length; i++) {
             weatherApis[i].setAttribute("style", "display: block;");
-            console.log("check is checked");
+            console.log(" weather checkbox is checked");
         }
     } else {
         for (var n = 0; n < weatherApis.length; n++) {
             weatherApis[n].setAttribute("style", "display:none;");
-            console.log("check not checked");
+            console.log("weather checkbox not checked");
         }
     }
 }
@@ -403,6 +408,7 @@ function getCovidDataTwo(countyFips) {
         });
 };
 
+
 // list out job openings for certain cities, with respective positions, companies, languages required, and pay
 var jobsArray = [
     {"city":"Atlanta","position":"Full Stack Software Engineer","company":"Microsuft","languages":"Java, C/C++, Python","pay":"$75,000/year"},
@@ -480,3 +486,89 @@ function jobSearchTwo(searchInputTwo) {
         console.log("hello!")
     }
 }
+
+// Weather API Section
+
+// Get weather for city 1
+
+function weatherCityOne(cityInput) {
+    $("#weather-api-1").children().remove();
+    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=7e44ab7dc38056f61c9d41fc361df519&units=imperial";
+    fetch(latLonURL)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            cityName = data.name;
+             cityMinTemp = data.main.temp_min;
+             cityMaxTemp = data.main.temp_max;
+             tempIcon = data.weather[0].icon;
+             cityWind = data.wind.speed;
+             cityHumidity = data.main.humidity;
+
+// dynamically generate weather card with weather elements  
+
+$('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-1");
+$('<div class="location"> ' + cityName + '</div>').appendTo("#weather-api-1");
+$('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" /> </div>').appendTo("#weather-api-1");
+$('<div class="mintemp-value"> Min Temp : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
+$('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-1");
+$('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo("#weather-api-1");
+$('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo("#weather-api-1");
+
+
+        })
+        .catch((e) => {
+        console.log("PLease add valid City name for Weather!");
+
+        });
+}
+
+// Gets weather for the city 2
+
+function weatherCityTwo(cityInput) {
+    $("#weather-api-2").children().remove();
+    var latLonURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=7e44ab7dc38056f61c9d41fc361df519&units=imperial" ;
+    fetch(latLonURL)
+        .then(response =>response.json())
+        .then(function(data) {
+            console.log(data);
+            cityName = data.name;
+            tempIcon = data.weather[0].icon;
+            cityMinTemp = data.main.temp_min;
+            cityMaxTemp = data.main.temp_max;
+            cityWind = data.wind.speed;
+             cityHumidity = data.main.humidity;
+
+// Dynamically generate weather card with weather elements             
+             
+$('<h5 class="weatherHeader">City Weather</h5>').appendTo("#weather-api-2");
+$('<div class="location"> ' + cityName + '</div>').appendTo("#weather-api-2");
+$('<div> <img id="temp-icon" src="' + "http://openweathermap.org/img/wn/" + tempIcon + ".png" +'" alt="WeatherIcon" />  </div>').appendTo("#weather-api-2");
+$('<div class="mintemp-value"> Min Temp  : ' + cityMinTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
+$('<div class="maxtemp-value"> Max Temp : ' + cityMaxTemp + '<span class="deg"> °F </span></div>').appendTo("#weather-api-2");
+$('<div class="humidity"> Humidity : ' + cityHumidity + '<span class="percent"> % </span></div>').appendTo("#weather-api-2");
+$('<div class="wind"> Wind : ' + cityWind + '<span class="mph"> mph </span></div>').appendTo("#weather-api-2");
+            
+            
+        })
+        .catch((e) => {
+        console.log("Please select valid City Name for Weather!");
+        });
+}
+
+$(document).ready(function(){
+    var cityObject = {
+        Atlanta: null,
+        "Los Angeles": null,
+        Chicago: null,
+        "New York": null,
+        Philadelphia : null
+    }
+
+
+    $("input.autocomplete").autocomplete({
+        data: cityObject,
+    });
+
+});
+
