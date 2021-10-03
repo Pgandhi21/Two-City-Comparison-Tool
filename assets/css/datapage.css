@@ -69,6 +69,10 @@ span {
     font-size: 70%;
 }
 
+.error-notice {
+    font-size: 80%;
+}
+
 #weather-api-1, #weather-api-2 {
     display: none;
     background-color: rgb(195, 219, 231);
